@@ -2,6 +2,12 @@
 
  Algoritmeoptimisering og analyse samt praktiske implementationer
 
+## Clean and run
+
+```sh
+make clean; make; ./out/main
+```
+
 ## Emne / Koncept
 
 **Algoritmeoptimering og deres praktiske implementationer.**
