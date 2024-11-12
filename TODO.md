@@ -18,7 +18,7 @@ A brief description of what your project is about and its purpose.
 
 ### 2. Design
 
-- [ ] Create wireframes or sketches of 
+- [ ] Create wireframes or sketches of
 the user interface
 - [ ] Plan user experience (how users will interact with the app)
 
