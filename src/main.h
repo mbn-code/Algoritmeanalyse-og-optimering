@@ -4,6 +4,6 @@
 #define MAIN_H
 
 #include <iostream>
-
+#include "App.h"
 
 #endif // MAIN_H
