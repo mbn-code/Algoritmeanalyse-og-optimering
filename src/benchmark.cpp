@@ -1,17 +1,12 @@
 // file for benchmarking the performance of the different algorithms
 
-
-
 namespace Benchmark {
-    class Benchmark {
+    class Run {
     private: 
 
     public:
-        Benchmark();
-        ~Benchmark();
-        void run();
-
+        Run();
+        ~Run();
+        void start();
     };
-    
-
 }
