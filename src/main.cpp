@@ -8,7 +8,6 @@
  * @date 
  */
 
-#include "main.h"
 /** 
     * @brief Initializes and runs the application.
 
@@ -20,6 +19,8 @@
 **/
 
 /* ------------------------------- MAIN_CPP ----------------------------------- */
+
+#include "main.h"
 
 int main() {
     App app;

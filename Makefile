@@ -1,7 +1,6 @@
 # Compiler and flags
 CXX = g++
 CXXFLAGS = -Iinclude -Wall -Wextra -std=c++17
-LDFLAGS = -o out/main
 
 # Directories
 SRC_DIR = src
@@ -18,34 +17,45 @@ TEST_OBJS = $(TEST_SRCS:$(TEST_DIR)/%.cpp=$(OUT_DIR)/%.o)
 # Target executable
 TARGET = $(OUT_DIR)/main
 
+# Detect OS
+ifeq ($(OS),Windows_NT)
+    RM = del /Q
+    MKDIR = if not exist $(OUT_DIR) mkdir $(OUT_DIR)
+    EXE_EXT = .exe
+else
+    RM = rm -rf
+    MKDIR = mkdir -p $(OUT_DIR)
+    EXE_EXT =
+endif
+
 # Default target
-all: $(TARGET)
+all: $(TARGET)$(EXE_EXT)
 
 # Build the main executable
-$(TARGET): $(OBJS)
-	@mkdir -p $(OUT_DIR)
-	$(CXX) $(OBJS) $(LDFLAGS)
+$(TARGET)$(EXE_EXT): $(OBJS)
+    $(MKDIR)
+    $(CXX) $(OBJS) -o $(TARGET)$(EXE_EXT)
 
 # Compile object files for the main program
 $(OUT_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(OUT_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+    $(MKDIR)
+    $(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Build and run tests
 tests: $(TEST_OBJS) $(OBJS)
-	@mkdir -p $(OUT_DIR)
-	$(CXX) $(TEST_OBJS) $(OBJS) -o $(OUT_DIR)/tests
-	@echo "Running tests..."
-	@./$(OUT_DIR)/tests
+    $(MKDIR)
+    $(CXX) $(TEST_OBJS) $(OBJS) -o $(OUT_DIR)/tests$(EXE_EXT)
+    @echo "Running tests..."
+    @./$(OUT_DIR)/tests$(EXE_EXT)
 
 # Compile object files for tests
 $(OUT_DIR)/%.o: $(TEST_DIR)/%.cpp
-	@mkdir -p $(OUT_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+    $(MKDIR)
+    $(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up build artifacts
 clean:
-	rm -rf $(OUT_DIR)/*.o $(TARGET) $(OUT_DIR)/tests
+    $(RM) $(OUT_DIR)/*.o $(TARGET)$(EXE_EXT) $(OUT_DIR)/tests$(EXE_EXT)
 
 # Phony targets
 .PHONY: all clean tests
