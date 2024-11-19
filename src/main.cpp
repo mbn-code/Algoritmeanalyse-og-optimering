@@ -9,26 +9,40 @@
  */
 
 /** 
-    * @brief Initializes and runs the application.
-
-    Start an instance of the App class and run the application.
+    * @brief Runs the CLI application
 
     * @details 
-    app.run() -> App::run() -> CommandLine::run() -> Benchmark::Run::start() -> Benchmark::Run::Run() -> contains the logic for the benchmarking of the algorithms
-    app.run() -> App::run() -> CommandLine::run() -> CommandLine::run() -> contains the logic for the command line options
+    
 **/
 
 /* ------------------------------- MAIN_CPP ----------------------------------- */
 
-#include "main.h"
-#include "sorting.h"
+#include <iostream>
+#include <vector>
+#include <string>
 #include "searching.h"
+#include "sorting.h"
+#include "test_searching.h"
+#include "test_sorting.h"
+
+void CLI() {
+    std::string command;
+    std::cout << "Enter command (test_sorting, test_searching, or exit): ";
+    while (std::cin >> command) {
+        if (command == "test_sorting") {
+            test_sorting();
+        } else if (command == "test_searching") {
+            test_searching();
+        } else if (command == "exit") {
+            break;
+        } else {
+            std::cout << "Unknown command. Please enter 'test_sorting', 'test_searching', or 'exit'." << std::endl;
+        }
+        std::cout << "Enter command (test_sorting, test_searching, or exit): ";
+    }
+}
 
 int main() {
-
-    std::vector<int> data = {1,7,3,4,2,1,7,8,3,6,7,4};
-    sorting::merge_sort(data);
-
-
+    CLI();
     return 0;
 }
