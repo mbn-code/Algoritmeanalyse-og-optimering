@@ -1,14 +1,15 @@
-#include "sorting.h"
+#include "searching.h"
+#include <algorithm>
 #include <cassert>
 
 void test_merge_sort(){
-    std::vector<int> data = {3,2,6,21,3,6};
+    std::vector<int> data = {2, 3, 4, 5, 8};
 
-    sorting::merge_sort(data);
+    int index = searching::binary_search_iter(data,4);
+    int index = searching::binary_search_recur(data,4);
 
-    std::vector<int> expected = {2,3,3,6,6,21};
+    assert(index == 2);
 
-    assert(data == expected);
 }
 
 int main() {

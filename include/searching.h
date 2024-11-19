@@ -4,7 +4,8 @@
 #include <vector>
 
 namespace searching {
-    void binary_search(std::vector<int>& data, int target);
+    int binary_search_iter(std::vector<int>& data, int target);
+    int binary_search_recur(std::vector<int>& data, int target);
 }
 
 
