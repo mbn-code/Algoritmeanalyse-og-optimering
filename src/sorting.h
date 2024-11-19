@@ -7,12 +7,21 @@
 
 // Merge Sort
 namespace sorting {
-    void merge_sort(std::vector<int>& data) {
+    std::vector<int> merge_sort(std::vector<int>& data) {
         std::cout << "Merge Sort" << std::endl;
+
+
+        std::vector<int> result = {1, 2, 3};
+
+        return result;
     }
 
-    void quick_sort(std::vector<int>& data) {
+    std::vector<int> quick_sort(std::vector<int>& data) {
         std::cout << "Quick Sort" << std::endl;
+
+        std::vector<int> result = {1, 2, 3};
+
+        return result;
     }
 }
 

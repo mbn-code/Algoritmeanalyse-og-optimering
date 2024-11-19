@@ -27,8 +27,9 @@
 
 void CLI() {
     std::string command;
-    std::cout << "Enter command (test_sorting, test_searching, or exit): ";
-    while (std::cin >> command) {
+    while (true) {
+        std::cout << "Enter command (test_sorting, test_searching, or exit): ";
+        std::cin >> command;
         if (command == "test_sorting") {
             test_sorting();
         } else if (command == "test_searching") {
@@ -38,7 +39,6 @@ void CLI() {
         } else {
             std::cout << "Unknown command. Please enter 'test_sorting', 'test_searching', or 'exit'." << std::endl;
         }
-        std::cout << "Enter command (test_sorting, test_searching, or exit): ";
     }
 }
 

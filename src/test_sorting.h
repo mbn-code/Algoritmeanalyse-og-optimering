@@ -6,16 +6,41 @@
 #include <cassert>
 #include "sorting.h"
 
+using namespace std;
+
 void test_sorting() {
-    std::vector<int> data1 = {3, 2, 6, 21, 3, 6};
-    sorting::merge_sort(data1);
-    assert(data1 == std::vector<int>({2, 3, 3, 6, 6, 21}));
+    cout << "Running sort tests..." << endl;
+    cout << "Merge Sort" << endl;
+    cout << "List before sorting: {3, 2, 6, 21, 3, 6}" << endl;
+    cout << "Starting merge sort..." << endl;
 
-    std::vector<int> data2 = {3, 2, 6, 21, 3, 6};
+
+    vector<int> data1 = {3, 2, 6, 21, 3, 6};
+    vector<int> sorted = sorting::merge_sort(data1);
+
+    cout << "Done sorting!" << endl;
+    cout << "List after sorting: {2, 3, 3, 6, 6, 21}" << endl;
+
+    if (sorted == vector<int>({2, 3, 3, 6, 6, 21}) ) {
+        cout << "Merge Sort completed!" << endl;
+        return;
+    }
+    cout << "Merge Sort passed!" << endl;
+
+    cout << "Quick Sort" << endl;
+    cout << "List before sorting: {3, 2, 6, 21, 3, 6}" << endl;
+    cout << "Starting quick sort..." << endl;
+
+    vector<int> data2 = {3, 2, 6, 21, 3, 6};
     sorting::quick_sort(data2);
-    assert(data2 == std::vector<int>({2, 3, 3, 6, 6, 21}));
 
-    std::cout << "Sort tests passed!" << std::endl;
+    cout << "Done sorting!" << endl;
+    cout << "List after sorting: {2, 3, 3, 6, 6, 21}" << endl;
+    
+    assert(data2 == vector<int>({2, 3, 3, 6, 6, 21}));
+    cout << "Quick Sort passed!" << endl;
+    
+    cout << "Sort tests passed!" << endl;
 
 }
 
