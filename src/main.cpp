@@ -27,17 +27,29 @@
 
 void CLI() {
     std::string command;
+    std::cout << "\n=== Algorithm Testing CLI ===\n";
+    
     while (true) {
-        std::cout << "Enter command (test_sorting, test_searching, or exit): ";
+        std::cout << "\nAvailable commands:\n";
+        std::cout << "1. test_sorting   - Run sorting algorithm tests\n";
+        std::cout << "2. test_searching - Run searching algorithm tests\n";
+        std::cout << "3. exit           - Exit the program\n\n";
+        
+        std::cout << "Enter command: ";
         std::cin >> command;
+
         if (command == "test_sorting") {
+            std::cout << "\nRunning sorting tests...\n";
             test_sorting();
         } else if (command == "test_searching") {
+            std::cout << "\nRunning searching tests...\n";
             test_searching();
         } else if (command == "exit") {
+            std::cout << "\nExiting program. Goodbye!\n";
             break;
         } else {
-            std::cout << "Unknown command. Please enter 'test_sorting', 'test_searching', or 'exit'." << std::endl;
+            std::cout << "\nError: Unknown command '" << command << "'\n";
+            std::cout << "Please use one of the available commands listed above.\n";
         }
     }
 }
