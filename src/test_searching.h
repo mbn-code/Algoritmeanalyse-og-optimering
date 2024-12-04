@@ -29,7 +29,8 @@ std::vector<int> generate_random_dataset(int size, int min_val, int max_val) {
     return dataset;
 }
 
-
+// Test searching algorithms 
+// The searching algo is binary search 
 void test_searching() {
 
     std::vector<int> input = generate_random_dataset(5000, 0, 5000);
