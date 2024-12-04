@@ -2,6 +2,7 @@
 #define SORTING_H
 
 #include <vector>
+#include <utility>
 #include <algorithm>
 #include <iostream>
 
@@ -24,17 +25,15 @@ namespace sorting {
         for (int j = low; j <= high - 1; j++) {
             if (arr[j] < pivot) {
                 i++;
-                swap(arr[i], arr[j]);
+                std::swap(arr[i], arr[j]);
             }
         }
 
-        swap(arr[i+1], arr[high]);
+        std::swap(arr[i+1], arr[high]);
         return i + 1;
     }
 
-    void quick_sort(std::vector<int>& arr, int low, int high) {
-        std::cout << "Quick Sort" << std::endl;
-
+    std::vector<int> quick_sort(std::vector<int>& arr, int low, int high) {
         // low is the starting index
         // high is the ending index
         if (low < high) {
@@ -45,6 +44,7 @@ namespace sorting {
             quick_sort(arr, low, pi - 1); // before 
             quick_sort(arr, pi + 1, high); // after
         }
+        return arr;
     }
 }
 
