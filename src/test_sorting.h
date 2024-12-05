@@ -4,57 +4,45 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <chrono>
+#include <fstream>
 #include "sorting.h"
 
-using namespace std;
-
 void test_sorting() {
+    using namespace std;
+    using namespace std::chrono;
+
     cout << "Running sort tests..." << endl;
-    cout << "Merge Sort" << endl;
-    cout << "List before sorting: {3, 2, 6, 21, 3, 6}" << endl;
-    cout << "Starting merge sort..." << endl;
 
+    vector<int> sizes = {100, 500, 1000, 5000, 10000, 20000, 30000, 40000, 50000};
+    vector<string> algorithms = {"Merge Sort", "Quick Sort"};
 
-    vector<int> data1 = {3, 2, 6, 21, 3, 6};
-    vector<int> sorted1 = sorting::merge_sort(data1);
+    ofstream csv_file("sorting_results.csv");
+    csv_file << "Algorithm,Size,Duration (microseconds)\n";
 
-    for (int num : sorted1) {
-        cout << num << " ";
+    for (const auto& size : sizes) {
+        vector<int> data(size);
+        generate(data.begin(), data.end(), rand);
+
+        for (const auto& algo : algorithms) {
+            vector<int> data_copy = data;
+            auto start = high_resolution_clock::now();
+
+            if (algo == "Merge Sort") {
+                sorting::merge_sort(data_copy);
+            } else if (algo == "Quick Sort") {
+                sorting::quick_sort(data_copy, 0, data_copy.size() - 1);
+            }
+
+            auto end = high_resolution_clock::now();
+            auto duration = duration_cast<microseconds>(end - start).count();
+            cout << algo << " with size " << size << " took " << duration << " microseconds" << endl;
+            csv_file << algo << "," << size << "," << duration << "\n";
+        }
     }
 
-    cout << "Done sorting!" << endl;
-
-    if (sorted1 == vector<int>({2, 3, 3, 6, 6, 21}) ) {
-        cout << "Merge Sort completed!" << endl;
-        return;
-    }
-    cout << "Merge Sort passed!" << endl;
-
-    cout << "Quick Sort" << endl;
-    cout << "List before sorting: {3, 2, 6, 21, 3, 6}" << endl;
-    cout << "Starting quick sort..." << endl;
-
-    vector<int> data2 = {3, 2, 6, 21, 3, 6};
-    std::vector<int> sorted2 = sorting::quick_sort(data2, 0, data2.size() - 1);
-
-    cout << "Sorted list should be : 2, 3, 3, 6, 6, 21 " << endl;
-
-    cout << "Sorted list is : ";
-
-    for (int num : sorted2) {
-        cout << num << " ";
-    }
-
-    cout << "Done sorting!" << endl;
-    
-    if (sorted2 == vector<int>({2, 3, 3, 6, 6, 21})) {
-        cout << "Quick Sort completed!" << endl;
-        return;
-    }
-    cout << "Quick Sort passed!" << endl;
-    
-    cout << "Sort tests passed!" << endl;
-
+    csv_file.close();
+    cout << "Sort tests completed!" << endl;
 }
 
 #endif // TEST_SORTING_H

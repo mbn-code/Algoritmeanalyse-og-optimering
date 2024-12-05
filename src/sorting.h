@@ -12,7 +12,7 @@ namespace sorting {
         std::cout << "Merge Sort" << std::endl;
 
 
-        std::vector<int> result = {1, 2, 3};
+        std::vector<int> result = {1, 2, 3}; 
 
         return result;
     }
