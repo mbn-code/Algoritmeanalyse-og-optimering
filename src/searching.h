@@ -90,8 +90,16 @@ namespace searching {
 
     // Recursive Binary Search
     int binary_search_recur(const std::vector<int>& data, int target, int left, int right) {
-        std::cout << "Binary Search Recursive" << std::endl;
-        std::cout << "waiting to be implemented" << std::endl;
+        if (left <= right) {
+            int middle_idx = left + (right - left) / 2;
+            if (data[middle_idx] == target) {
+                return middle_idx;
+            } else if (target < data[middle_idx]) {
+                return binary_search_recur(data, target, left, middle_idx - 1);
+            } else {
+                return binary_search_recur(data, target, middle_idx + 1, right);
+            }
+        }
         return -1;
     }
 }

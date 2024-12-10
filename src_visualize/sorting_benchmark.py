@@ -2,7 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Initialize data structure for algorithms
+# Initialize data structure for algorithms and cases
 algorithms = {}
 
 # Read from CSV file
@@ -11,55 +11,68 @@ try:
         csv_reader = csv.reader(file)
         next(csv_reader)  # Skip header
         for row in csv_reader:
-            algorithm, size, duration = row
+            algorithm, case, size, duration = row
             size = int(size)
             duration = int(duration)
-            if algorithm not in algorithms:
-                algorithms[algorithm] = {'size': [], 'duration': []}
-            algorithms[algorithm]['size'].append(size)
-            algorithms[algorithm]['duration'].append(duration)
+            key = (algorithm, case)
+            if key not in algorithms:
+                algorithms[key] = {'size': [], 'duration': []}
+            algorithms[key]['size'].append(size)
+            algorithms[key]['duration'].append(duration)
 
-    # Create plot
-    plt.figure(figsize=(12, 8))
+    # Create figure with subplots
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 6))
+    cases = ['Best Case', 'Average Case', 'Worst Case']
+    axes = {case: ax for case, ax in zip(cases, [ax1, ax2, ax3])}
+    colors = {'Merge Sort': 'blue', 'Quick Sort': 'red'}
 
-    # Plot empirical data
-    for algorithm in algorithms:
-        sizes = algorithms[algorithm]['size']
-        durations = algorithms[algorithm]['duration']
-        plt.plot(sizes, durations, marker='o', label=f'{algorithm} (Empirical)', linewidth=2)
-
-    # Calculate proper scale factors
-    merge_ratios = []
-    quick_ratios = []
-    
-    for algorithm in algorithms:
-        sizes = np.array(algorithms[algorithm]['size'])
-        durations = np.array(algorithms[algorithm]['duration'])
+    # Plot data for each case
+    for (algorithm, case), data in algorithms.items():
+        ax = axes[case]
+        sizes = np.array(data['size'])
+        durations = np.array(data['duration'])
         
+        # Calculate theoretical curves first to scale the constants
+        x = np.linspace(min(sizes), max(sizes), 100)
         if algorithm == "Merge Sort":
-            theoretical = sizes * np.log2(sizes)
-            merge_ratios.extend(durations / theoretical)
-        elif algorithm == "Quick Sort":
-            theoretical = sizes * sizes
-            quick_ratios.extend(durations / theoretical)
+            # Find scaling factor that keeps all points under the curve
+            scale_factor = np.max(durations / (sizes * np.log2(sizes)))
+            theoretical_durations = sizes * np.log2(sizes) * scale_factor
+            curve_durations = x * np.log2(x) * scale_factor
+            ax.plot(x, curve_durations, '--', 
+                   color=colors[algorithm], alpha=0.3,
+                   label=f'{algorithm} O(n log n)')
+        else:
+            if case == "Average Case":
+                scale_factor = np.max(durations / (sizes * np.log2(sizes)))
+                theoretical_durations = sizes * np.log2(sizes) * scale_factor
+                curve_durations = x * np.log2(x) * scale_factor
+                ax.plot(x, curve_durations, '--',
+                       color=colors[algorithm], alpha=0.3,
+                       label=f'{algorithm} O(n log n)')
+            else:
+                scale_factor = np.max(durations / (sizes * sizes))
+                theoretical_durations = sizes * sizes * scale_factor
+                curve_durations = x * x * scale_factor
+                ax.plot(x, curve_durations, '--',
+                       color=colors[algorithm], alpha=0.3,
+                       label=f'{algorithm} O(n²)')
+        
+        # Plot empirical data
+        ax.plot(sizes, durations, marker='o', 
+                label=f'{algorithm}', 
+                color=colors[algorithm],
+                linewidth=2)
+        
+        ax.set_title(f'{case}')
+        ax.set_xlabel('Input Size (n)')
+        ax.set_ylabel('Duration (microseconds)')
+        ax.grid(True, alpha=0.3)
+        ax.legend()
+        ax.set_yscale('log')
+        ax.set_xscale('log')
 
-    # Use maximum ratio to ensure theoretical curve stays above empirical data
-    merge_scale = max(merge_ratios)
-    quick_scale = max(quick_ratios)
-
-    # Plot theoretical complexities
-    x = np.linspace(100, 50000, 1000)
-    plt.plot(x, merge_scale * x * np.log2(x), '--', label='O(n log n) - Theoretical', alpha=0.5)
-    plt.plot(x, quick_scale * x**2, '--', label='O(n²) - Theoretical Worst Case', alpha=0.5)
-
-    plt.xlabel('Input Size (n)')
-    plt.ylabel('Duration (microseconds)')
-    plt.title('Sorting Algorithm Performance: Empirical vs Theoretical')
-    plt.legend()
-    plt.grid(True)
-    plt.yscale('log')
-    plt.xscale('log')
-
+    plt.suptitle('Sorting Algorithm Performance Comparison', y=1.05)
     plt.tight_layout()
     plt.show()
 

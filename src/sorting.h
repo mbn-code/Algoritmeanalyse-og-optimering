@@ -43,13 +43,34 @@ namespace sorting {
         merge_sort_rec(data, 0, data.size() - 1);
     }
 
+    // Enum for pivot selection strategy
+    enum class PivotStrategy {
+        RANDOM,
+        LAST
+    };
+
+    // Global variable for pivot strategy
+    static PivotStrategy currentPivotStrategy = PivotStrategy::RANDOM;
+
+    // Function to set pivot strategy
+    void set_pivot_strategy(PivotStrategy strategy) {
+        currentPivotStrategy = strategy;
+    }
 
     int partition(std::vector<int>& arr, int low, int high) {
-        // Select pivot index randomly
-        int pivotIdx = low + rand() % (high - low + 1);
-        // Get actual pivot value
+        int pivotIdx;
+        
+        // Select pivot based on strategy
+        switch (currentPivotStrategy) {
+            case PivotStrategy::RANDOM:
+                pivotIdx = low + rand() % (high - low + 1);
+                break;
+            case PivotStrategy::LAST:
+                pivotIdx = high;
+                break;
+        }
+
         int pivotValue = arr[pivotIdx];
-        // Move pivot to end
         std::swap(arr[pivotIdx], arr[high]);
         
         int i = low - 1;
@@ -65,17 +86,37 @@ namespace sorting {
     }
 
     std::vector<int> quick_sort(std::vector<int>& arr, int low, int high) {
-        // low is the starting index
-        // high is the ending index
         if (low < high) {
-            // pi = partition index 
-            int pi = partition(arr, low, high); // find the partition index which is the index of the pivot element
-
-            // recursively sort elements before and after partition
-            quick_sort(arr, low, pi - 1); // before 
-            quick_sort(arr, pi + 1, high); // after
+            int pi = partition(arr, low, high);
+            quick_sort(arr, low, pi - 1);
+            quick_sort(arr, pi + 1, high);
         }
         return arr;
+    }
+
+    int partition_middle(std::vector<int>& arr, int low, int high) {
+        int pivotIdx = low + (high - low) / 2; // Middle pivot
+        int pivotValue = arr[pivotIdx];
+        std::swap(arr[pivotIdx], arr[high]);
+        
+        int i = low - 1;
+        
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivotValue) {
+                i++;
+                std::swap(arr[i], arr[j]);
+            }
+        }
+        std::swap(arr[i + 1], arr[high]);
+        return i + 1;
+    }
+
+    void quick_sort_middle(std::vector<int>& arr, int low, int high) {
+        if (low < high) {
+            int pi = partition_middle(arr, low, high);
+            quick_sort_middle(arr, low, pi - 1);
+            quick_sort_middle(arr, pi + 1, high);
+        }
     }
 }
 

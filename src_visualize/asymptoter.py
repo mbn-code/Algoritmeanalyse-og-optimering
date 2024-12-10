@@ -8,14 +8,17 @@ def find_asymptotes(expr):
 
     # Find vertical asymptotes
     vertical_asymptotes = sp.solve(sp.denom(f), x)
+    print(f"Vertical Asymptotes Calculation: solve(denom({f}), x) = {vertical_asymptotes}")
 
     # Find horizontal asymptotes
     horizontal_asymptote = sp.limit(f, x, sp.oo)
+    print(f"Horizontal Asymptote Calculation: limit({f}, x, oo) = {horizontal_asymptote}")
 
     # Find oblique asymptotes
     oblique_asymptote = None
     if horizontal_asymptote == sp.oo or horizontal_asymptote == -sp.oo:
         oblique_asymptote = sp.limit(f/x, x, sp.oo) * x
+        print(f"Oblique Asymptote Calculation: limit({f}/x, x, oo) * x = {oblique_asymptote}")
 
     return vertical_asymptotes, horizontal_asymptote, oblique_asymptote
 
