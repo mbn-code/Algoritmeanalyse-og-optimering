@@ -5,7 +5,9 @@ Algorithm optimization and analysis along with practical implementations
 ## Clean and Run
 
 ```sh
-make clean; make; ./out/main
+cmake -S . -B build
+cmake --build build
+.\build\AlgorithmProject.exe
 ```
 
 ## Topic/Concept
