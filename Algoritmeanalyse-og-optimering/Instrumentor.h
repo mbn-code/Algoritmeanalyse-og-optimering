@@ -73,6 +73,8 @@ public:
         std::string name = result.Name;
         std::replace(name.begin(), name.end(), '"', '\'');
 
+        std::cout << "Writing profile: " << result.Name << std::endl; // Debugging print
+
         m_OutputStream << "{";
         m_OutputStream << "\"cat\":\"" << result.Category << "\",";
         m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
@@ -82,9 +84,8 @@ public:
         m_OutputStream << "\"tid\":" << result.ThreadID << ",";
         m_OutputStream << "\"ts\":" << result.Start;
         m_OutputStream << "}";
-
-        m_OutputStream.flush();
     }
+
 
     void WriteHeader()
     {
@@ -124,14 +125,18 @@ public:
             Stop();
     }
 
-    void Stop()
-    {
+    void Stop() {
         auto endTimepoint = std::chrono::high_resolution_clock::now();
-        long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-        long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+
+        auto start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch();
+        auto end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch();
+
+        long long duration = std::chrono::duration_cast<std::chrono::microseconds>(endTimepoint - m_StartTimepoint).count();
 
         uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-        Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID, m_Category });
+        ProfileResult result = { m_Name, start.count(), end.count(), threadID, m_Category };
+        Instrumentor::Get().WriteProfile(result);
+        Instrumentor::Get().AddResult(result);
 
         m_Stopped = true;
     }
@@ -143,13 +148,20 @@ private:
     const char* m_Category;
 };
 
+
+
 void SaveProfilingData(const std::string& filepath)
 {
     std::ofstream file(filepath);
     if (file.is_open())
     {
         file << "{\"otherData\": {},\"traceEvents\":[";
+
         const auto& results = Instrumentor::Get().GetResults();
+        if (results.empty()) {
+            std::cout << "No profiling data recorded!" << std::endl;
+        }
+
         for (size_t i = 0; i < results.size(); ++i)
         {
             const auto& result = results[i];
@@ -166,7 +178,12 @@ void SaveProfilingData(const std::string& filepath)
             file << "\"ts\":" << result.Start;
             file << "}";
         }
+
         file << "]}";
         file.close();
     }
+    else {
+        std::cout << "Failed to open file for profiling data!" << std::endl;
+    }
 }
+

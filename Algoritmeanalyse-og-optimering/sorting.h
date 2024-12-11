@@ -10,14 +10,15 @@ namespace sorting {
     // Enum for pivot selection strategy
     enum class PivotStrategy {
         RANDOM,
-        LAST
+        LAST,
+		FIRST
     };
 
     // Function to set pivot strategy
     void set_pivot_strategy(PivotStrategy strategy);
 
     // Function to perform quick sort on a vector of integers
-    void quick_sort(std::vector<int>& arr, int low, int high);
+    void quick_sort(std::vector<int>& arr, int low, int high, PivotStrategy pivot_strategy);
 
     // Function to perform quick sort with middle pivot on a vector of integers
     void quick_sort_middle(std::vector<int>& arr, int low, int high);

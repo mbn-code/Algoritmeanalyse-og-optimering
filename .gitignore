@@ -38,3 +38,38 @@ out/
 build/
 # Ignore all files in the bin directory
 
+# Visual Studio files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.pdb
+*.ilk
+*.idb
+*.ipch
+*.obj
+*.exe
+*.dll
+*.lib
+*.exp
+*.res
+*.aps
+*.pch
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.ncb
+*.vspscc
+*.vssscc
+*.vshost.*
+*.psess
+*.vsmacros
+*.vspx
+*.vsix
+*.dotCover
+*.csproj.user
+*.bak
+*.cache
+*.log
+*.vscode
+*.vs
