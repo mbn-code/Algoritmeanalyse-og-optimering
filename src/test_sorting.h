@@ -1,34 +1,42 @@
-#ifndef TEST_SORTING_H
-#define TEST_SORTING_H
-
+#include "sorting.h"
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <vector>
-#include <cassert>
 #include <chrono>
-#include <fstream>
-#include <algorithm>
 #include <random>
-#include "sorting.h"
+#include <algorithm>
 
 void test_sorting() {
     using namespace std;
     using namespace std::chrono;
 
+    // Ensure the directory exists
+    std::filesystem::create_directories("src_visualize");
+
     cout << "Running comprehensive sorting algorithm tests..." << endl;
 
     // Test sizes (increased range for better visualization)
-    vector<int> sizes = {100, 500, 1000, 5000, 10000, 20000, 30000, 40000, 50000};
-    
+    vector<int> sizes = {100, 500, 1000, 5000, 10000, 20000, 30000, 40000, 50000, 100000};
+
     // Open CSV file for writing results
     ofstream csv_file("src_visualize/sorting_results.csv");
-    csv_file << "Algorithm,Case,Size,Duration (microseconds)\n";
+    if (!csv_file.is_open()) {
+        cerr << "Error: Could not open file 'src_visualize/sorting_results.csv' for writing.\n";
+        return;
+    }
+
+    csv_file << "Algorithm,Case,Size,Duration (microseconds)\n";  // Ensure the header is correct
 
     // Random number generator for consistent results
     mt19937 rng(42); // Fixed seed for reproducibility
 
+    // Set pivot strategy to RANDOM for Average Case
+    sorting::set_pivot_strategy(sorting::PivotStrategy::RANDOM);
+
     for (const auto& size : sizes) {
         vector<int> data(size);
-        
+
         // Best Case for Merge Sort (already sorted)
         iota(data.begin(), data.end(), 0);
         {
@@ -53,8 +61,10 @@ void test_sorting() {
         }
 
         // Average Case (random data with duplicates)
-        uniform_int_distribution<> dist(0, size/2);
+        uniform_int_distribution<> dist(0, size);
         generate(data.begin(), data.end(), [&]() { return dist(rng); });
+
+        // Merge Sort Average Case
         {
             auto data_copy = data;
             auto start = high_resolution_clock::now();
@@ -63,6 +73,8 @@ void test_sorting() {
             csv_file << "Merge Sort,Average Case," << size << "," << duration << "\n";
             cout << "Merge Sort (Average Case) size " << size << ": " << duration << " μs\n";
         }
+
+        // Quick Sort Average Case
         {
             auto data_copy = data;
             auto start = high_resolution_clock::now();
@@ -84,6 +96,9 @@ void test_sorting() {
             cout << "Merge Sort (Worst Case) size " << size << ": " << duration << " μs\n";
         }
 
+        // Set pivot strategy to LAST for Worst Case scenario (Quick Sort)
+        sorting::set_pivot_strategy(sorting::PivotStrategy::LAST);
+
         // Worst Case for Quick Sort (already sorted - leads to unbalanced partitions)
         iota(data.begin(), data.end(), 0);
         {
@@ -97,7 +112,9 @@ void test_sorting() {
     }
 
     csv_file.close();
-    cout << "Sort tests completed! Results written to sorting_results.csv" << endl;
+    if (!csv_file) {
+        cerr << "Error closing the file properly.\n";
+    } else {
+        cout << "Results successfully written to 'src_visualize/sorting_results.csv'.\n";
+    }
 }
-
-#endif // TEST_SORTING_H

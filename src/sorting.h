@@ -85,14 +85,14 @@ namespace sorting {
         return i + 1;
     }
 
-    std::vector<int> quick_sort(std::vector<int>& arr, int low, int high) {
+    void quick_sort(std::vector<int>& arr, int low, int high) {
         if (low < high) {
             int pi = partition(arr, low, high);
             quick_sort(arr, low, pi - 1);
             quick_sort(arr, pi + 1, high);
         }
-        return arr;
     }
+
 
     int partition_middle(std::vector<int>& arr, int low, int high) {
         int pivotIdx = low + (high - low) / 2; // Middle pivot

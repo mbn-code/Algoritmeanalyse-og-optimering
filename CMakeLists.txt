@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Add source files
 add_executable(AlgorithmProject
-    src/main.cpp
+        src/main.cpp
     src/searching.h
     src/sorting.h
     src/test_searching.h

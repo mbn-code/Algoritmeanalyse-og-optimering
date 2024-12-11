@@ -7,7 +7,7 @@ algorithms = {}
 
 # Read from CSV file
 try:
-    with open('src_visualize/sorting_results.csv', 'r') as file:
+    with open('sorting_results.csv', 'r') as file:
         csv_reader = csv.reader(file)
         next(csv_reader)  # Skip header
         for row in csv_reader:
