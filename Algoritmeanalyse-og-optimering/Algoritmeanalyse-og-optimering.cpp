@@ -58,11 +58,34 @@ void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
                 sorting::merge_sort(merge_data);
             }
 
+            if (caseType == "Best") {
+                std::iota(merge_data.begin(), merge_data.end(), 0); // Sorted in ascending order
+                quick_data = merge_data;
+            }
+            else if (caseType == "Worst") {
+                std::iota(merge_data.rbegin(), merge_data.rend(), 0); // Sorted in descending order
+                quick_data = merge_data;
+            }
+            else {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> distrib(0, size * 2);
+                std::generate(merge_data.begin(), merge_data.end(), [&]() { return distrib(gen); });
+                quick_data = merge_data;
+            }
+
+            // Benchmark Quick Sort with the correct pivot strategy
             {
                 std::string name = "Quick Sort (" + caseType + ", Size: " + std::to_string(size) + ")";
                 InstrumentationTimer timer(name.c_str(), caseType.c_str());
-                sorting::quick_sort(quick_data, 0, quick_data.size() - 1, sorting::PivotStrategy::RANDOM);
+                if (caseType == "Worst") {
+                    sorting::quick_sort(quick_data, 0, quick_data.size() - 1, sorting::PivotStrategy::LAST);
+                }
+                else {  
+                    sorting::quick_sort(quick_data, 0, quick_data.size() - 1, sorting::PivotStrategy::RANDOM);
+                }
             }
+
         }
     }
 
