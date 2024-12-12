@@ -1,27 +1,55 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy as np
 
-def plot_algorithm_performance(csv_file):
-    df = pd.read_csv(csv_file)
+# Load the data
+data = pd.read_csv('src_visualize/results.csv')
 
-    # Extract relevant columns and clean data
-    df['size'] = df['name'].apply(lambda x: int(x.split('Size: ')[1].split(')')[0]))
-    df['algorithm'] = df['name'].apply(lambda x: x.split()[0])
-    df['case'] = df['name'].apply(lambda x: x.split()[1])
+# Extract unique sizes and categories
+sizes = sorted(set(int(name.split('Size: ')[1].split(')')[0]) for name in data['name']))
+categories = data['cat'].unique()
 
-    # Create a line plot with different colors for each case
-    sns.lineplot(data=df, x='size', y='dur', hue='case', style='algorithm', markers=True)
+# Initialize a figure
+plt.figure(figsize=(12, 8))
 
-    # Customize plot appearance
-    plt.xlabel('Input Size')
-    plt.ylabel('Duration (ns)')
-    plt.title('Sorting Algorithm Performance')
-    plt.grid(True)
-    plt.legend(title='Algorithm/Case')
+# Plot data for each algorithm and category
+for algorithm in ['Merge Sort', 'Quick Sort']:
+    for category in categories:
+        subset = data[(data['name'].str.contains(algorithm)) & (data['cat'] == category)]
+        plt.plot(sizes, subset['dur'], label=f'{algorithm} ({category})')
 
-    plt.show()
+# Add O(n log n) asymptote
+n = np.array(sizes)
+plt.plot(n, n * np.log(n), 'k--', label='O(n log n)')
 
-# Example usage
-csv_file = 'src_visualize/results.csv'  # Replace with your CSV file path
-plot_algorithm_performance(csv_file)
+# Add titles and labels
+plt.title('Sorting Algorithm Performance with O(n log n) Asymptote')
+plt.xlabel('Input Size')
+plt.ylabel('Duration (ns)')
+plt.legend()
+plt.grid(True)
+
+# Show the plot
+plt.show()
+
+# Initialize a figure for Quick Sort worst case
+plt.figure(figsize=(12, 8))
+
+# Plot data for Quick Sort worst case
+for category in categories:
+    if category == 'Worst':
+        subset = data[(data['name'].str.contains('Quick Sort')) & (data['cat'] == category)]
+        plt.plot(sizes, subset['dur'], label=f'Quick Sort ({category})')
+
+# Add O(n^2) asymptote
+plt.plot(n, n**2, 'r--', label='O(n^2)')
+
+# Add titles and labels
+plt.title('Quick Sort Worst Case Performance with O(n^2) Asymptote')
+plt.xlabel('Input Size')
+plt.ylabel('Duration (ns)')
+plt.legend()
+plt.grid(True)
+
+# Show the plot
+plt.show()
