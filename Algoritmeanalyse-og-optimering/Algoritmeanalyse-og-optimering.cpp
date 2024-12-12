@@ -21,65 +21,56 @@
 #include "sorting.h"
 #include <vector>
 #include <algorithm>
-#include <chrono>
+
 #include <iostream>
 #include <fstream>
 #include <numeric>
 #include <random>
 
-void MergeAlg(const std::string& caseType) {
-    std::vector<int> data(1000000);
-    if (caseType == "Best") {
-        std::iota(data.begin(), data.end(), 0); // Best case: already sorted
-    }
-    else if (caseType == "Worst") {
-        std::iota(data.rbegin(), data.rend(), 0); // Worst case: reverse sorted
-    }
-    else {
-        std::generate(data.begin(), data.end(), std::rand); // Average case: random
-    }
+void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
+    Instrumentor::Get().BeginSession("Sorting Benchmarks");
 
-    InstrumentationTimer timer("Merge Sort", caseType.c_str());
-    sorting::merge_sort(data);  // This will be timed by the timer
-}
+    for (int size = initial_size; size <= initial_size + (num_runs - 1) * size_increment; size += size_increment) {
+        std::cout << "Running benchmarks for size: " << size << std::endl;
+        for (const std::string& caseType : { "Best", "Average", "Worst" }) {
+            std::vector<int> merge_data(size);
+            std::vector<int> quick_data = merge_data; // Create a copy for quicksort
 
-void QuickAlg(const std::string& caseType) {
-    std::vector<int> data(1000000);
-    if (caseType == "Best") {
-        std::iota(data.begin(), data.end(), 0); // Best case: already sorted
-    }
-    else if (caseType == "Worst") {
-        std::iota(data.rbegin(), data.rend(), 0); // Worst case: reverse sorted
-    }
-    else {
-        std::generate(data.begin(), data.end(), std::rand); // Average case: random
-    }
+            if (caseType == "Best") {
+                std::iota(merge_data.begin(), merge_data.end(), 0);
+                quick_data = merge_data;
+            }
+            else if (caseType == "Worst") {
+                std::iota(merge_data.rbegin(), merge_data.rend(), 0);
+                quick_data = merge_data;
+            }
+            else {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> distrib(0, size * 2); // Adjust range as needed
+                std::generate(merge_data.begin(), merge_data.end(), [&]() { return distrib(gen); });
+                quick_data = merge_data;
+            }
 
-    InstrumentationTimer timer("Quick Sort", caseType.c_str());
-    sorting::quick_sort(data, 0, data.size() - 1, sorting::PivotStrategy::RANDOM);  // This will be timed by the timer
-}
+            {
+                std::string name = "Merge Sort (" + caseType + ", Size: " + std::to_string(size) + ")";
+                InstrumentationTimer timer(name.c_str(), caseType.c_str());
+                sorting::merge_sort(merge_data);
+            }
 
-
-int main() {
-    Instrumentor::Get().BeginSession("Sorting Algos");
-
-    {
-        MergeAlg("Best");
-        QuickAlg("Best");
-    }
-
-    {
-        MergeAlg("Average");
-        QuickAlg("Average");
-    }
-
-    {
-        MergeAlg("Worst");
-        QuickAlg("Worst");
+            {
+                std::string name = "Quick Sort (" + caseType + ", Size: " + std::to_string(size) + ")";
+                InstrumentationTimer timer(name.c_str(), caseType.c_str());
+                sorting::quick_sort(quick_data, 0, quick_data.size() - 1, sorting::PivotStrategy::RANDOM);
+            }
+        }
     }
 
     Instrumentor::Get().EndSession();
     SaveProfilingData("results.json");
+}
 
+int main() {
+    RunSortingBenchmarks(5, 100000, 100000); // 5 runs, starting at 100,000, incrementing by 100,000
     return 0;
 }
