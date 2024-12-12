@@ -7,7 +7,7 @@ algorithms = {}
 
 # Read from CSV file
 try:
-    with open('sorting_results.csv', 'r') as file:
+    with open('src_visualize/sorting_results.csv', 'r') as file:
         csv_reader = csv.reader(file)
         next(csv_reader)  # Skip header
         for row in csv_reader:
@@ -22,7 +22,7 @@ try:
 
     # Create figure with subplots
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 6))
-    cases = ['Best Case', 'Average Case', 'Worst Case']
+    cases = ['Best', 'Average', 'Worst']
     axes = {case: ax for case, ax in zip(cases, [ax1, ax2, ax3])}
     colors = {'Merge Sort': 'blue', 'Quick Sort': 'red'}
 
@@ -43,7 +43,7 @@ try:
                    color=colors[algorithm], alpha=0.3,
                    label=f'{algorithm} O(n log n)')
         else:
-            if case == "Average Case":
+            if case == "Average":
                 scale_factor = np.max(durations / (sizes * np.log2(sizes)))
                 theoretical_durations = sizes * np.log2(sizes) * scale_factor
                 curve_durations = x * np.log2(x) * scale_factor
@@ -64,7 +64,7 @@ try:
                 color=colors[algorithm],
                 linewidth=2)
         
-        ax.set_title(f'{case}')
+        ax.set_title(f'{case} Case')
         ax.set_xlabel('Input Size (n)')
         ax.set_ylabel('Duration (microseconds)')
         ax.grid(True, alpha=0.3)

@@ -71,6 +71,6 @@ void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
 }
 
 int main() {
-    RunSortingBenchmarks(5, 100000, 100000); // 5 runs, starting at 100,000, incrementing by 100,000
+    RunSortingBenchmarks(3, 100000, 100000); // 5 runs, starting at 100,000, incrementing by 100,000
     return 0;
 }
