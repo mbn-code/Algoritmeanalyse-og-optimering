@@ -4,11 +4,8 @@ Algorithm optimization and analysis along with practical implementations
 
 ## Clean and Run
 
-```sh
-cmake -S . -B build
-cmake --build build
-.\build\AlgorithmProject.exe
-```
+To run the benchmarker, either setup a macOS enviroment that is close to Visual studio MSVC and Compile it.
+Else start up Visual studio, download the c++ tools needed and build / run the project.
 
 ## Topic/Concept
 
