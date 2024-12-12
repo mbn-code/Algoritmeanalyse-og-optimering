@@ -34,15 +34,16 @@ void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
         std::cout << "Running benchmarks for size: " << size << std::endl;
         for (const std::string& caseType : { "Best", "Average", "Worst" }) {
             std::vector<int> merge_data(size);
-            std::vector<int> quick_data = merge_data; // Create a copy for quicksort
+            std::vector<int> quick_data(size);
 
             if (caseType == "Best") {
                 std::iota(merge_data.begin(), merge_data.end(), 0);
                 quick_data = merge_data;
             }
             else if (caseType == "Worst") {
-                std::iota(merge_data.rbegin(), merge_data.rend(), 0);
+                std::iota(merge_data.begin(), merge_data.end(), 0);
                 quick_data = merge_data;
+                sorting::generate_worst_case_quick_sort(quick_data);
             }
             else {
                 std::random_device rd;
@@ -61,7 +62,7 @@ void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
             {
                 std::string name = "Quick Sort (" + caseType + ", Size: " + std::to_string(size) + ")";
                 InstrumentationTimer timer(name.c_str(), caseType.c_str());
-                sorting::quick_sort(quick_data, 0, quick_data.size() - 1, sorting::PivotStrategy::RANDOM);
+                sorting::quick_sort(quick_data, 0, quick_data.size() - 1, sorting::PivotStrategy::LAST);
             }
         }
     }
@@ -71,6 +72,6 @@ void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
 }
 
 int main() {
-    RunSortingBenchmarks(3, 100000, 100000); // 5 runs, starting at 100,000, incrementing by 100,000
+    RunSortingBenchmarks(3, 100000, 100000); // 3 runs, starting at 100,000, incrementing by 100,000
     return 0;
 }

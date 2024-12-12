@@ -97,4 +97,19 @@ namespace sorting {
 	    }
 	}
 
+    void generate_worst_case_quick_sort(std::vector<int>& data) {
+        if (data.empty()) return;
+
+        std::vector<int> temp(data.size());
+        std::iota(temp.begin(), temp.end(), 0);
+        std::function<void(int, int)> generate = [&](int low, int high) {
+            if (low < high) {
+                int mid = (low + high) / 2;
+                std::swap(data[low], data[mid]);
+                generate(low + 1, high);
+            }
+        };
+        generate(0, data.size() - 1);
+    }
+
 } // namespace sorting

@@ -22,6 +22,9 @@ namespace sorting {
 
     // Function to perform quick sort with middle pivot on a vector of integers
     void quick_sort_middle(std::vector<int>& arr, int low, int high);
+
+    // Function to generate a worst-case scenario for quicksort
+    void generate_worst_case_quick_sort(std::vector<int>& data);
 }
 
 #endif // SORTING_H
