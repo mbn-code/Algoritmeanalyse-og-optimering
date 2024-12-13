@@ -18,17 +18,10 @@
  /* ------------------------------- MAIN_CPP ----------------------------------- */
 
 #include "main.h"
-#include "sorting.h"
-#include <vector>
-#include <algorithm>
 
-#include <iostream>
-#include <fstream>
-#include <numeric>
-#include <random>
 
 void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
-    Instrumentor::Get().BeginSession("Sorting Benchmarks");
+    Instrumentor::Get().BeginSession("Sorting Benchmarks", "results_sorting.json");
 
     for (int size = initial_size; size <= initial_size + (num_runs - 1) * size_increment; size += size_increment) {
         std::cout << "Running benchmarks for size: " << size << std::endl;
@@ -90,10 +83,45 @@ void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
     }
 
     Instrumentor::Get().EndSession();
-    SaveProfilingData("results.json");
+    SaveProfilingData("results_sorting.json");
 }
 
+void RunSearchingBenchmarks(int num_runs, int initial_size, int size_increment) {
+	Instrumentor::Get().BeginSession("Searching Benchmarks", "results_searching.json");
+
+	for (int size = initial_size; size <= initial_size + (num_runs - 1) * size_increment; size += size_increment) { // Loop through the different sizes to run benchmarks for each size
+		std::cout << "Running benchmarks for size: " << size << std::endl;
+		for (const std::string& caseType : { "Best", "Average", "Worst" }) {
+			std::vector<int> data(size);
+
+			if (caseType == "Best") {
+				std::iota(data.begin(), data.end(), 0);
+			}
+			else if (caseType == "Worst") {
+				std::iota(data.rbegin(), data.rend(), 0);
+			}
+			else {
+				std::random_device rd;
+				std::mt19937 gen(rd());
+				std::uniform_int_distribution<> distrib(0, size * 2);
+				std::generate(data.begin(), data.end(), [&]() { return distrib(gen); });
+				std::sort(data.begin(), data.end());
+			}
+
+			{
+				std::string name = "Binary Search (" + caseType + ", Size: " + std::to_string(size) + ")";
+				InstrumentationTimer timer(name.c_str(), caseType.c_str());
+				searching::binary_search(data.data(), data.size(), data[size / 2]);
+			}
+		}
+	}
+
+	Instrumentor::Get().EndSession();
+}
+
+
 int main() {
-    RunSortingBenchmarks(3, 100000, 100000); // 5 runs, starting at 100,000, incrementing by 100,000
+	RunSortingBenchmarks(10, 1000, 1000); // Run 50 benchmarks starting at size 100 and incrementing by 100
+	RunSearchingBenchmarks(10, 10000000, 10000000); // Run 50 benchmarks starting at size 100 and incrementing by 100
     return 0;
 }

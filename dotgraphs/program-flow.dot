@@ -1,0 +1,19 @@
+digraph ProgramFlow {
+    rankdir=LR;
+    node [shape=box];
+
+    main [label="main()"];
+    RunSortingBenchmarks [label="RunSortingBenchmarks(int num_runs, int initial_size, int size_increment)"];
+    RunSearchingBenchmarks [label="RunSearchingBenchmarks(int num_runs, int initial_size, int size_increment)"];
+    merge_sort [label="sorting::merge_sort(std::vector<int>& arr)"];
+    quick_sort [label="sorting::quick_sort(std::vector<int>& arr, int low, int high, PivotStrategy pivot_strategy)"];
+    binary_search [label="searching::binary_search(int* arr, int size, int key)"];
+
+    main -> RunSortingBenchmarks;
+    main -> RunSearchingBenchmarks;
+
+    RunSortingBenchmarks -> merge_sort;
+    RunSortingBenchmarks -> quick_sort;
+
+    RunSearchingBenchmarks -> binary_search;
+}

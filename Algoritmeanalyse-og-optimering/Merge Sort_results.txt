@@ -1,9 +1,0 @@
-Best case for Merge Sort: 15.3621 ms
-Average case for Merge Sort: 17.2705 ms
-Worst case for Merge Sort: 15.976 ms
-Best case for Merge Sort: 168.324 ms
-Average case for Merge Sort: 178.752 ms
-Worst case for Merge Sort: 166.648 ms
-Best case for Merge Sort: 1770.24 ms
-Average case for Merge Sort: 1846.68 ms
-Worst case for Merge Sort: 1720.03 ms

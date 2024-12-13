@@ -1,0 +1,18 @@
+digraph QuickSort {
+    node [shape=box];
+
+    start [label="Start"];
+    check_base_case [label="Check if low < high"];
+    partition [label="Partition the array"];
+    call_quick_sort_left [label="Call quick_sort(arr, low, pi - 1, pivot_strategy)"];
+    call_quick_sort_right [label="Call quick_sort(arr, pi + 1, high, pivot_strategy)"];
+    end [label="End"];
+
+    start -> check_base_case;
+    check_base_case -> end [label="false"];
+    check_base_case -> partition [label="true"];
+    partition -> call_quick_sort_left;
+    partition -> call_quick_sort_right;
+    call_quick_sort_left -> check_base_case;
+    call_quick_sort_right -> check_base_case;
+}

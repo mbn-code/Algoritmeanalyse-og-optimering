@@ -1,0 +1,29 @@
+digraph BinarySearch {
+    node [shape=box];
+
+    start [label="Start"];
+    check_empty [label="Check if array is empty"];
+    set_initial_bounds [label="Set left = 0, right = size - 1"];
+    while_loop [label="While left <= right"];
+    calculate_mid [label="Calculate mid = left + (right - left) / 2"];
+    check_mid [label="Check if arr[mid] == key"];
+    found [label="Element found at index mid"];
+    check_less [label="Check if arr[mid] < key"];
+    move_left [label="Set left = mid + 1"];
+    move_right [label="Set right = mid - 1"];
+    not_found [label="Element not found"];
+
+    start -> check_empty;
+    check_empty -> set_initial_bounds [label="if not empty"];
+    check_empty -> not_found [label="if empty"];
+    set_initial_bounds -> while_loop;
+    while_loop -> calculate_mid [label="true"];
+    while_loop -> not_found [label="false"];
+    calculate_mid -> check_mid;
+    check_mid -> found [label="if true"];
+    check_mid -> check_less [label="if false"];
+    check_less -> move_left [label="if true"];
+    check_less -> move_right [label="if false"];
+    move_left -> while_loop;
+    move_right -> while_loop;
+}

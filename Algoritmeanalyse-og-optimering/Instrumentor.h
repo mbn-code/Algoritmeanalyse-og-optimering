@@ -175,7 +175,9 @@ void SaveProfilingData(const std::string& filepath)
             file << "\"ph\":\"X\",";
             file << "\"pid\":0,";
             file << "\"tid\":" << result.ThreadID << ",";
-            file << "\"ts\":" << result.Start;
+            file << "\"ts\":" << result.Start << ",";
+            file << "\"start_time\":\"" << std::chrono::system_clock::to_time_t(std::chrono::system_clock::now() + std::chrono::microseconds(result.Start)) << "\",";
+            file << "\"end_time\":\"" << std::chrono::system_clock::to_time_t(std::chrono::system_clock::now() + std::chrono::microseconds(result.End)) << "\"";
             file << "}";
         }
 

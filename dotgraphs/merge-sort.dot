@@ -1,0 +1,27 @@
+digraph MergeSort {
+    node [shape=box];
+
+    start [label="Start"];
+    check_base_case [label="Check if left < right"];
+    find_mid [label="Find mid = left + (right - left) / 2"];
+    call_merge_sort_left [label="Call merge_sort(arr, left, mid)"];
+    call_merge_sort_right [label="Call merge_sort(arr, mid + 1, right)"];
+    merge_process [label="Merge Process"];
+    create_temp_arrays [label="Create temp arrays L and R"];
+    copy_data [label="Copy data to temp arrays L and R"];
+    merge_arrays [label="Merge the temp arrays back into arr"];
+    copy_remaining [label="Copy remaining elements of L and R if any"];
+    end [label="End"];
+
+    start -> check_base_case;
+    check_base_case -> end [label="false"];
+    check_base_case -> find_mid [label="true"];
+    find_mid -> call_merge_sort_left;
+    call_merge_sort_left -> call_merge_sort_right;
+    call_merge_sort_right -> merge_process;
+    merge_process -> create_temp_arrays;
+    create_temp_arrays -> copy_data;
+    copy_data -> merge_arrays;
+    merge_arrays -> copy_remaining;
+    copy_remaining -> end;
+}
