@@ -146,12 +146,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\manor\Documents\GitHub\Algoritmeanalyse-og-optimering\Algoritmeanalyse-og-optimering\raylib\raylib-5.5_win64_msvc16\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\manor\Documents\GitHub\Algoritmeanalyse-og-optimering\Algoritmeanalyse-og-optimering\raylib\raylib-5.5_win64_msvc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Users\manor\Documents\GitHub\Algoritmeanalyse-og-optimering\Algoritmeanalyse-og-optimering\raylib\raylib-5.5_win64_msvc16\lib\raylib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
@@ -186,12 +189,16 @@
     <ClCompile Include="Algoritmeanalyse-og-optimering.cpp" />
     <ClCompile Include="searching.cpp" />
     <ClCompile Include="sorting.cpp" />
+    <ClCompile Include="Visualizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\raylib.h" />
     <ClInclude Include="Instrumentor.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="main.h" />
     <ClInclude Include="searching.h" />
     <ClInclude Include="sorting.h" />
+    <ClInclude Include="Visualizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

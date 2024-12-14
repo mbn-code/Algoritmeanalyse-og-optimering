@@ -11,6 +11,9 @@
 #include <random>
 
 #include "Instrumentor.h"
+#include "raylib.h"
+#include "json.hpp"
+#include "Visualizer.h"
 
 #include <iostream>
 #include <fstream>

@@ -19,6 +19,8 @@
 
 #include "main.h"
 
+#pragma comment(lib, "raylib.lib")
+#pragma comment(lib, "winmm.lib")
 
 void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
     Instrumentor::Get().BeginSession("Sorting Benchmarks", "results_sorting.json");
@@ -119,9 +121,41 @@ void RunSearchingBenchmarks(int num_runs, int initial_size, int size_increment) 
 	Instrumentor::Get().EndSession();
 }
 
+void RunVisualizer() {
+    constexpr int screenWidth = 800;
+    constexpr int screenHeight = 600;
+
+    InitWindow(screenWidth, screenHeight, "Sorting Algorithm Visualizer");
+
+	std::string filePath = "results_sorting.json";
+
+    std::vector<TraceEvent> traceEvents = parseJSON(filePath);
+
+    SetTargetFPS(60);
+
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+
+        ClearBackground(RAYWHITE);
+        DrawText("Sorting Algorithm Visualizer", 10, 10, 20, BLACK);
+
+        if (!traceEvents.empty()) {
+            plotData(traceEvents, screenWidth, screenHeight, filePath);
+        }
+        else {
+            DrawText("No data to display.", screenWidth / 2 - 50, screenHeight / 2, 20, RED);
+        }
+
+        EndDrawing();
+    }
+
+    CloseWindow();
+}
+
 
 int main() {
-	RunSortingBenchmarks(10, 1000, 1000); // Run 50 benchmarks starting at size 100 and incrementing by 100
-	RunSearchingBenchmarks(10, 10000000, 10000000); // Run 50 benchmarks starting at size 100 and incrementing by 100
-    return 0;
+    RunSearchingBenchmarks(100, 100, 100);
+	RunVisualizer();
+
+	return 0;
 }
