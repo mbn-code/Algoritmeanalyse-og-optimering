@@ -121,13 +121,11 @@ void RunSearchingBenchmarks(int num_runs, int initial_size, int size_increment) 
 	Instrumentor::Get().EndSession();
 }
 
-void RunVisualizer() {
+void RunVisualizer(std::string filePath) {
     constexpr int screenWidth = 1280;
-    constexpr int screenHeight = 720;
+    constexpr int screenHeight = 900;
 
     InitWindow(screenWidth, screenHeight, "Sorting Algorithm Visualizer");
-
-	std::string filePath = "results_sorting.json";
 
     std::vector<TraceEvent> traceEvents = parseJSON(filePath);
 
@@ -154,9 +152,19 @@ void RunVisualizer() {
 
 
 int main() {
-	RunSortingBenchmarks(100, 100, 100);
-    RunSearchingBenchmarks(100, 100, 100);
-	RunVisualizer();
+
+    std::string filePath = "results_searching.json";
+
+	if (filePath == "results_sorting.json") {
+		std::cout << "Running sorting benchmarks..." << std::endl;
+		RunSortingBenchmarks(100, 100, 100);
+	}
+	else {
+		std::cout << "Running searching benchmarks..." << std::endl;
+		RunSearchingBenchmarks(100, 100, 100);
+	}
+
+	RunVisualizer(filePath);
 
 	return 0;
 }
