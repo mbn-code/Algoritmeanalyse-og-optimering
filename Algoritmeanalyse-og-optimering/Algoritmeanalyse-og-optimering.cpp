@@ -122,8 +122,8 @@ void RunSearchingBenchmarks(int num_runs, int initial_size, int size_increment) 
 }
 
 void RunVisualizer() {
-    constexpr int screenWidth = 800;
-    constexpr int screenHeight = 600;
+    constexpr int screenWidth = 1280;
+    constexpr int screenHeight = 720;
 
     InitWindow(screenWidth, screenHeight, "Sorting Algorithm Visualizer");
 
@@ -154,6 +154,7 @@ void RunVisualizer() {
 
 
 int main() {
+	RunSortingBenchmarks(100, 100, 100);
     RunSearchingBenchmarks(100, 100, 100);
 	RunVisualizer();
 
