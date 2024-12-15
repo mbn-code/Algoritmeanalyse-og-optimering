@@ -22,6 +22,9 @@
 #pragma comment(lib, "raylib.lib")
 #pragma comment(lib, "winmm.lib")
 
+
+
+
 /**
  * @brief Function to run sorting algorithm benchmarks.
  *
@@ -158,14 +161,14 @@ void RunVisualizer(std::string filePath) {
     CloseWindow();
 }
 
+bool BENCHMARK = true;
+bool VISUALIZE = true;
 
 int main() {
-	bool benchmark = false;
-	bool visualize = true;
 
-	std::string filePath = "results_sorting.json";
+	std::string filePath = "results_searching.json";
 
-    if (benchmark) {
+    if (BENCHMARK) {
 		if (filePath == "results_sorting.json") {
 			std::cout << "Running sorting benchmarks..." << std::endl;
 			RunSortingBenchmarks(100, 100, 100);
@@ -177,7 +180,7 @@ int main() {
 	    
     }
 
-	if (visualize) {
+	if (VISUALIZE) {
 		RunVisualizer(filePath);
 	}
 

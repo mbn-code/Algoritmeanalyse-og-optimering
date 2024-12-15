@@ -1,46 +1,63 @@
-digraph ProjectStructure {
-    node [shape=box];
+digraph C4Model {
+    rankdir=TB;
+    node [shape=rect, style=filled, color=lightgrey];
 
-    // Files
-    Algoritmeanalyse_og_optimering [label="Algoritmeanalyse-og-optimering.cpp"];
-    sorting_cpp [label="sorting.cpp"];
-    searching_cpp [label="searching.cpp"];
-    Visualizer_cpp [label="Visualizer.cpp"];
-    Instrumentor_h [label="Instrumentor.h"];
+    // System Context Diagram
+    subgraph cluster_SystemContext {
+        label="System Context Diagram";
+        color=blue;
 
-    // Relationships
-    Algoritmeanalyse_og_optimering -> sorting_cpp;
-    Algoritmeanalyse_og_optimering -> searching_cpp;
-    Algoritmeanalyse_og_optimering -> Visualizer_cpp;
-    Algoritmeanalyse_og_optimering -> Instrumentor_h;
+        User [label="User\n- Interacts with the system", shape=ellipse];
+        System [label="Main System\n- Algoritmeanalyse og optimering", shape=box];
+    }
 
-    // Functions in Algoritmeanalyse-og-optimering.cpp
-    RunSortingBenchmarks [label="RunSortingBenchmarks"];
-    RunSearchingBenchmarks [label="RunSearchingBenchmarks"];
-    Algoritmeanalyse_og_optimering -> RunSortingBenchmarks;
-    Algoritmeanalyse_og_optimering -> RunSearchingBenchmarks;
+    User -> System [label="Uses"];
 
-    // Functions in sorting.cpp
-    merge [label="merge"];
-    merge_sort [label="merge_sort"];
-    sorting_cpp -> merge;
-    sorting_cpp -> merge_sort;
+    // Container Diagram
+    subgraph cluster_Container {
+        label="Container Diagram";
+        color=green;
 
-    // Functions in searching.cpp
-    binary_search [label="binary_search"];
-    searching_cpp -> binary_search;
+        MainApp [label="Main Application\n- Algoritmeanalyse-og-optimering.cpp", shape=box];
+        Sorting [label="Sorting Algorithms\n- sorting.cpp", shape=box];
+        Searching [label="Searching Algorithms\n- searching.cpp", shape=box];
+        Visualizer [label="Visualization Tool\n- Visualizer.cpp", shape=box];
+    }
 
-    // Functions in Visualizer.cpp
-    parseJSON [label="parseJSON"];
-    plotData [label="plotData"];
-    Visualizer_cpp -> parseJSON;
-    Visualizer_cpp -> plotData;
+    System -> MainApp [label="Contains"];
+    MainApp -> Sorting [label="Uses"];
+    MainApp -> Searching [label="Uses"];
+    MainApp -> Visualizer [label="Uses"];
 
-    // Classes and Structs in Instrumentor.h
-    ProfileResult [label="ProfileResult"];
-    InstrumentationSession [label="InstrumentationSession"];
-    Instrumentor [label="Instrumentor"];
-    Instrumentor_h -> ProfileResult;
-    Instrumentor_h -> InstrumentationSession;
-    Instrumentor_h -> Instrumentor;
+    // Component Diagram
+    subgraph cluster_Component {
+        label="Component Diagram";
+        color=yellow;
+
+        MainAppComponent [label="Main Application Component\n- main()\n- RunSortingBenchmarks()\n- RunSearchingBenchmarks()\n- RunVisualizer()", shape=box];
+        SortingComponent [label="Sorting Component\n- mergeSort()\n- quickSort()\n- bubbleSort()", shape=box];
+        SearchingComponent [label="Searching Component\n- binarySearch()", shape=box];
+        VisualizerComponent [label="Visualizer Component\n- parseJSON()\n- plotData()", shape=box];
+    }
+
+    MainApp -> MainAppComponent [label="Contains"];
+    Sorting -> SortingComponent [label="Contains"];
+    Searching -> SearchingComponent [label="Contains"];
+    Visualizer -> VisualizerComponent [label="Contains"];
+
+    // Code Diagram
+    subgraph cluster_Code {
+        label="Code Diagram";
+        color=orange;
+
+        MainAppCode [label="Main Application Code\n- main()\n- RunSortingBenchmarks()\n- RunSearchingBenchmarks()\n- RunVisualizer()", shape=note];
+        SortingCode [label="Sorting Code\n- mergeSort()\n- quickSort()\n- bubbleSort()", shape=note];
+        SearchingCode [label="Searching Code\n- binarySearch()", shape=note];
+        VisualizerCode [label="Visualizer Code\n- parseJSON()\n- plotData()", shape=note];
+    }
+
+    MainAppComponent -> MainAppCode [label="Implemented by"];
+    SortingComponent -> SortingCode [label="Implemented by"];
+    SearchingComponent -> SearchingCode [label="Implemented by"];
+    VisualizerComponent -> VisualizerCode [label="Implemented by"];
 }
