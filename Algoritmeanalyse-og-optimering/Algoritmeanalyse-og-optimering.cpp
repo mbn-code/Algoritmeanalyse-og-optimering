@@ -22,6 +22,14 @@
 #pragma comment(lib, "raylib.lib")
 #pragma comment(lib, "winmm.lib")
 
+/**
+ * @brief Function to run sorting algorithm benchmarks.
+ *
+ * @param num_runs Number of test runs for benchmarking.
+ * @param initial_size Initial size of the dataset.
+ * @param size_increment Size increment for each subsequent test.
+ */
+
 void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
     Instrumentor::Get().BeginSession("Sorting Benchmarks", "results_sorting.json");
 
@@ -152,19 +160,26 @@ void RunVisualizer(std::string filePath) {
 
 
 int main() {
+	bool benchmark = false;
+	bool visualize = true;
 
-    std::string filePath = "results_searching.json";
+	std::string filePath = "results_sorting.json";
 
-	if (filePath == "results_sorting.json") {
-		std::cout << "Running sorting benchmarks..." << std::endl;
-		RunSortingBenchmarks(100, 100, 100);
+    if (benchmark) {
+		if (filePath == "results_sorting.json") {
+			std::cout << "Running sorting benchmarks..." << std::endl;
+			RunSortingBenchmarks(100, 100, 100);
+		}
+        else {
+            std::cout << "Running searching benchmarks..." << std::endl;
+            RunSearchingBenchmarks(100, 100, 100);
+        }
+	    
+    }
+
+	if (visualize) {
+		RunVisualizer(filePath);
 	}
-	else {
-		std::cout << "Running searching benchmarks..." << std::endl;
-		RunSearchingBenchmarks(100, 100, 100);
-	}
-
-	RunVisualizer(filePath);
 
 	return 0;
 }

@@ -1,19 +1,46 @@
-digraph ProgramFlow {
-    rankdir=LR;
+digraph ProjectStructure {
     node [shape=box];
 
-    main [label="main()"];
-    RunSortingBenchmarks [label="RunSortingBenchmarks(int num_runs, int initial_size, int size_increment)"];
-    RunSearchingBenchmarks [label="RunSearchingBenchmarks(int num_runs, int initial_size, int size_increment)"];
-    merge_sort [label="sorting::merge_sort(std::vector<int>& arr)"];
-    quick_sort [label="sorting::quick_sort(std::vector<int>& arr, int low, int high, PivotStrategy pivot_strategy)"];
-    binary_search [label="searching::binary_search(int* arr, int size, int key)"];
+    // Files
+    Algoritmeanalyse_og_optimering [label="Algoritmeanalyse-og-optimering.cpp"];
+    sorting_cpp [label="sorting.cpp"];
+    searching_cpp [label="searching.cpp"];
+    Visualizer_cpp [label="Visualizer.cpp"];
+    Instrumentor_h [label="Instrumentor.h"];
 
-    main -> RunSortingBenchmarks;
-    main -> RunSearchingBenchmarks;
+    // Relationships
+    Algoritmeanalyse_og_optimering -> sorting_cpp;
+    Algoritmeanalyse_og_optimering -> searching_cpp;
+    Algoritmeanalyse_og_optimering -> Visualizer_cpp;
+    Algoritmeanalyse_og_optimering -> Instrumentor_h;
 
-    RunSortingBenchmarks -> merge_sort;
-    RunSortingBenchmarks -> quick_sort;
+    // Functions in Algoritmeanalyse-og-optimering.cpp
+    RunSortingBenchmarks [label="RunSortingBenchmarks"];
+    RunSearchingBenchmarks [label="RunSearchingBenchmarks"];
+    Algoritmeanalyse_og_optimering -> RunSortingBenchmarks;
+    Algoritmeanalyse_og_optimering -> RunSearchingBenchmarks;
 
-    RunSearchingBenchmarks -> binary_search;
+    // Functions in sorting.cpp
+    merge [label="merge"];
+    merge_sort [label="merge_sort"];
+    sorting_cpp -> merge;
+    sorting_cpp -> merge_sort;
+
+    // Functions in searching.cpp
+    binary_search [label="binary_search"];
+    searching_cpp -> binary_search;
+
+    // Functions in Visualizer.cpp
+    parseJSON [label="parseJSON"];
+    plotData [label="plotData"];
+    Visualizer_cpp -> parseJSON;
+    Visualizer_cpp -> plotData;
+
+    // Classes and Structs in Instrumentor.h
+    ProfileResult [label="ProfileResult"];
+    InstrumentationSession [label="InstrumentationSession"];
+    Instrumentor [label="Instrumentor"];
+    Instrumentor_h -> ProfileResult;
+    Instrumentor_h -> InstrumentationSession;
+    Instrumentor_h -> Instrumentor;
 }
