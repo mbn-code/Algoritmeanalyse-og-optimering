@@ -1,0 +1,50 @@
+digraph Visualizer {
+    // Graph settings
+    rankdir=TB;
+    node [shape=box, style=rounded, fontname="Arial", fontsize=12];
+    edge [fontname="Arial", fontsize=10];
+    
+    // Main components
+    parseJSON [label="parseJSON\n(JSON Parser)", color="#4CAF50", style="rounded,filled", fillcolor="#E8F5E9"];
+    plotData [label="plotData\n(Visualization Engine)", color="#2196F3", style="rounded,filled", fillcolor="#E3F2FD"];
+    
+    // Data structures
+    jsonFile [label="JSON Input File", shape=note, color="#FFA000", style="filled", fillcolor="#FFF3E0"];
+    traceEvents [label="TraceEvent Vector\n{category, name, duration,\nphase, processId, threadId,\ntimestamp}", shape=record, color="#7B1FA2", style="filled", fillcolor="#F3E5F5"];
+    visualization [label="RayLib Visualization", shape=component, color="#D32F2F", style="filled", fillcolor="#FFEBEE"];
+    
+    // Subcomponents of plotData
+    subgraph cluster_plotting {
+        label="Plotting Components";
+        style=dashed;
+        color="#1976D2";
+        
+        axesDrawing [label="Axes Drawing", style="filled", fillcolor="#BBDEFB"];
+        dataPoints [label="Data Points Plot", style="filled", fillcolor="#BBDEFB"];
+        asymptotes [label="Asymptotic Curves", style="filled", fillcolor="#BBDEFB"];
+        annotations [label="Text Annotations", style="filled", fillcolor="#BBDEFB"];
+    }
+    
+    // Data flow
+    jsonFile -> parseJSON [label="Input"];
+    parseJSON -> traceEvents [label="Generates"];
+    traceEvents -> plotData [label="Data Input"];
+    
+    plotData -> axesDrawing;
+    plotData -> dataPoints;
+    plotData -> asymptotes;
+    plotData -> annotations;
+    
+    axesDrawing -> visualization;
+    dataPoints -> visualization;
+    asymptotes -> visualization;
+    annotations -> visualization;
+    
+    // Asymptotic complexities
+    asymptotes -> {O1, Ologn, On, Onlogn, On2} [style=dotted];
+    O1 [label="O(1)", shape=plaintext];
+    Ologn [label="O(log n)", shape=plaintext];
+    On [label="O(n)", shape=plaintext];
+    Onlogn [label="O(n log n)", shape=plaintext];
+    On2 [label="O(n²)", shape=plaintext];
+}

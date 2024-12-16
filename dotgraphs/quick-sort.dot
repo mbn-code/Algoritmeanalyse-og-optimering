@@ -1,18 +1,50 @@
 digraph QuickSort {
-    node [shape=box];
+    rankdir=TB;
+    node [shape=box, style=rounded, fontname="Arial", margin="0.3,0.1"];
+    edge [fontname="Arial", fontsize=10];
 
-    start [label="Start"];
-    check_base_case [label="Check if low < high"];
-    partition [label="Partition the array"];
-    call_quick_sort_left [label="Call quick_sort(arr, low, pi - 1, pivot_strategy)"];
-    call_quick_sort_right [label="Call quick_sort(arr, pi + 1, high, pivot_strategy)"];
-    end [label="End"];
+    // Main QuickSort Process
+    start [label="Quick Sort Start", style=filled, fillcolor=lightblue];
+    check_base_case [label="Is low < high?", shape=diamond];
+    
+    // Partition Process
+    select_pivot [label="Select Pivot\n(First/Last/Random)", style=filled, fillcolor=lightgreen];
+    partition_start [label="Partition Array"];
+    move_smaller [label="Move elements\nsmaller than pivot\nto left side"];
+    place_pivot [label="Place pivot in\nfinal position"];
+    
+    // Recursive Calls
+    quick_sort_left [label="Quick Sort\nLeft Subarray\n[low...pi-1]", style=filled, fillcolor=lightyellow];
+    quick_sort_right [label="Quick Sort\nRight Subarray\n[pi+1...high]", style=filled, fillcolor=lightyellow];
+    
+    end [label="Quick Sort End", style=filled, fillcolor=lightblue];
 
+    // Connections
     start -> check_base_case;
-    check_base_case -> end [label="false"];
-    check_base_case -> partition [label="true"];
-    partition -> call_quick_sort_left;
-    partition -> call_quick_sort_right;
-    call_quick_sort_left -> check_base_case;
-    call_quick_sort_right -> check_base_case;
+    check_base_case -> end [label="No\n(Base case)"];
+    check_base_case -> select_pivot [label="Yes"];
+    
+    select_pivot -> partition_start;
+    partition_start -> move_smaller;
+    move_smaller -> place_pivot;
+    
+    place_pivot -> quick_sort_left;
+    place_pivot -> quick_sort_right;
+    
+    quick_sort_left -> check_base_case [label="Recursive call"];
+    quick_sort_right -> check_base_case [label="Recursive call"];
+
+    // Subgraph for partition details
+    subgraph cluster_partition {
+        label = "Partition Process";
+        style = dashed;
+        color = gray;
+        select_pivot;
+        partition_start;
+        move_smaller;
+        place_pivot;
+    }
+
+    // Add some invisible edges to improve layout
+    {rank=same; quick_sort_left; quick_sort_right}
 }
