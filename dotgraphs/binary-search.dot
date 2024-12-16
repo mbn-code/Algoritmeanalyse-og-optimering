@@ -12,14 +12,6 @@ digraph BinarySearch {
     not_found [shape=box, fillcolor="#FFCCBC", label="Return -1\nElement not found"];
     found [shape=box, fillcolor="#C8E6C9", label="Return mid\nElement found"];
 
-    // Validation nodes
-    subgraph cluster_validation {
-        label="Input Validation";
-        style=dashed;
-        color="#90A4AE";
-        check_empty [fillcolor="#FFE0B2", label="Check inputs\narr != null\nsize > 0"];
-    }
-
     // Main algorithm nodes
     subgraph cluster_main {
         label="Binary Search Process";
@@ -35,9 +27,7 @@ digraph BinarySearch {
     }
 
     // Edge connections with better formatting
-    start -> check_empty;
-    check_empty -> not_found [label="Invalid input", color="red"];
-    check_empty -> set_initial_bounds [label="Valid input", color="green"];
+    start -> set_initial_bounds;
     set_initial_bounds -> while_loop;
     while_loop -> calculate_mid [label="Yes", color="green"];
     while_loop -> not_found [label="No", color="red"];
@@ -45,7 +35,7 @@ digraph BinarySearch {
     check_mid -> found [label="Yes", color="green"];
     check_mid -> check_less [label="No", color="red"];
     check_less -> move_left [label="Yes", color="blue"];
-    check_less -> move_right [label="No", color="blue"];
+    check_less -> move_right [label="No", color=" blue"];
     move_left -> while_loop [color="gray"];
     move_right -> while_loop [color="gray"];
 }
