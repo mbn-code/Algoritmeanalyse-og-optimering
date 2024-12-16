@@ -1,27 +1,57 @@
 digraph MergeSort {
-    node [shape=box];
+    rankdir=TB;
+    node [shape=box, style=rounded, fontname="Arial", margin=0.3];
+    edge [fontname="Arial", fontsize=10];
 
-    start [label="Start"];
-    check_base_case [label="Check if left < right"];
-    find_mid [label="Find mid = left + (right - left) / 2"];
-    call_merge_sort_left [label="Call merge_sort(arr, left, mid)"];
-    call_merge_sort_right [label="Call merge_sort(arr, mid + 1, right)"];
-    merge_process [label="Merge Process"];
-    create_temp_arrays [label="Create temp arrays L and R"];
-    copy_data [label="Copy data to temp arrays L and R"];
-    merge_arrays [label="Merge the temp arrays back into arr"];
-    copy_remaining [label="Copy remaining elements of L and R if any"];
-    end [label="End"];
+    // Color scheme
+    node [fillcolor="#E8F5E9", style="filled,rounded"];
+    
+    // Main flow nodes
+    start [label="Start Merge Sort\nInput: array[left...right]", fillcolor="#B3E5FC"];
+    check_base_case [label="Is left < right?", shape=diamond, fillcolor="#FFE0B2"];
+    find_mid [label="Calculate mid point\nmid = left + (right - left) / 2\nTime: O(1)"];
+    
+    // Recursive calls
+    subgraph cluster_recursive {
+        label="Recursive Division Phase\nTime: O(log n)";
+        style=dashed;
+        color="#78909C";
+        bgcolor="#F5F5F5";
+        
+        call_merge_sort_left [label="Recursive Left Half\nmerge_sort(arr, left, mid)"];
+        call_merge_sort_right [label="Recursive Right Half\nmerge_sort(arr, mid + 1, right)"];
+    }
 
+    // Merge process
+    subgraph cluster_merge {
+        label="Merge Process\nTime: O(n)";
+        style=dashed;
+        color="#78909C";
+        bgcolor="#F5F5F5";
+        
+        create_temp_arrays [label="Create temporary arrays\nL[0...mid-left] and R[mid+1...right]\nSpace: O(n)"];
+        copy_data [label="Copy data to temp arrays\nTime: O(n)"];
+        merge_arrays [label="Merge arrays back into original\nCompare and place elements\nTime: O(n)"];
+        copy_remaining [label="Copy remaining elements\nTime: O(n)"];
+    }
+
+    end [label="End Merge Sort\nSorted array[left...right]", fillcolor="#B3E5FC"];
+
+    // Edges
     start -> check_base_case;
-    check_base_case -> end [label="false"];
-    check_base_case -> find_mid [label="true"];
+    check_base_case -> end [label="No\n(single element)"];
+    check_base_case -> find_mid [label="Yes"];
     find_mid -> call_merge_sort_left;
     call_merge_sort_left -> call_merge_sort_right;
-    call_merge_sort_right -> merge_process;
-    merge_process -> create_temp_arrays;
+    call_merge_sort_right -> create_temp_arrays;
     create_temp_arrays -> copy_data;
     copy_data -> merge_arrays;
     merge_arrays -> copy_remaining;
     copy_remaining -> end;
+
+    // Add overall complexity note
+    label = "Merge Sort\nTime Complexity: O(n log n)\nSpace Complexity: O(n)";
+    labelloc = "t";
+    fontname = "Arial Bold";
+    fontsize = 16;
 }

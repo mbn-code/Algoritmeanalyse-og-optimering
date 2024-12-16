@@ -1,29 +1,51 @@
 digraph BinarySearch {
-    node [shape=box];
+    // Graph settings
+    rankdir=TB;
+    node [fontname="Arial", fontsize=12, margin=0.3];
+    edge [fontname="Arial", fontsize=10];
 
-    start [label="Start"];
-    check_empty [label="Check if array is empty"];
-    set_initial_bounds [label="Set left = 0, right = size - 1"];
-    while_loop [label="While left <= right"];
-    calculate_mid [label="Calculate mid = left + (right - left) / 2"];
-    check_mid [label="Check if arr[mid] == key"];
-    found [label="Element found at index mid"];
-    check_less [label="Check if arr[mid] < key"];
-    move_left [label="Set left = mid + 1"];
-    move_right [label="Set right = mid - 1"];
-    not_found [label="Element not found"];
+    // Node styles
+    node [shape=ellipse, style=filled, fillcolor="#E8F5E9"]  // Default style
 
+    // Start and end nodes
+    start [shape=circle, fillcolor="#B2DFDB", label="Start"];
+    not_found [shape=box, fillcolor="#FFCCBC", label="Return -1\nElement not found"];
+    found [shape=box, fillcolor="#C8E6C9", label="Return mid\nElement found"];
+
+    // Validation nodes
+    subgraph cluster_validation {
+        label="Input Validation";
+        style=dashed;
+        color="#90A4AE";
+        check_empty [fillcolor="#FFE0B2", label="Check inputs\narr != null\nsize > 0"];
+    }
+
+    // Main algorithm nodes
+    subgraph cluster_main {
+        label="Binary Search Process";
+        style=dashed;
+        color="#90A4AE";
+        set_initial_bounds [fillcolor="#E1BEE7", label="Initialize\nleft = 0\nright = size-1"];
+        while_loop [shape=diamond, fillcolor="#B3E5FC", label="left ≤ right?"];
+        calculate_mid [fillcolor="#DCEDC8", label="mid = left +\n(right-left)/2"];
+        check_mid [shape=diamond, fillcolor="#B3E5FC", label="arr[mid]\n== key?"];
+        check_less [shape=diamond, fillcolor="#B3E5FC", label="arr[mid]\n< key?"];
+        move_left [fillcolor="#FFF9C4", label="left =\nmid + 1"];
+        move_right [fillcolor="#FFF9C4", label="right =\nmid - 1"];
+    }
+
+    // Edge connections with better formatting
     start -> check_empty;
-    check_empty -> set_initial_bounds [label="if not empty"];
-    check_empty -> not_found [label="if empty"];
+    check_empty -> not_found [label="Invalid input", color="red"];
+    check_empty -> set_initial_bounds [label="Valid input", color="green"];
     set_initial_bounds -> while_loop;
-    while_loop -> calculate_mid [label="true"];
-    while_loop -> not_found [label="false"];
+    while_loop -> calculate_mid [label="Yes", color="green"];
+    while_loop -> not_found [label="No", color="red"];
     calculate_mid -> check_mid;
-    check_mid -> found [label="if true"];
-    check_mid -> check_less [label="if false"];
-    check_less -> move_left [label="if true"];
-    check_less -> move_right [label="if false"];
-    move_left -> while_loop;
-    move_right -> while_loop;
+    check_mid -> found [label="Yes", color="green"];
+    check_mid -> check_less [label="No", color="red"];
+    check_less -> move_left [label="Yes", color="blue"];
+    check_less -> move_right [label="No", color="blue"];
+    move_left -> while_loop [color="gray"];
+    move_right -> while_loop [color="gray"];
 }
