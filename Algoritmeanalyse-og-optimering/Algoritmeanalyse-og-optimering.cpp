@@ -167,6 +167,8 @@ bool VISUALIZE = true;
 int main() {
 
 	std::string filePath = "results_searching.json";
+    // 	std::string filePath = "results_sorting.json";
+
 
     if (BENCHMARK) {
 		if (filePath == "results_sorting.json") {
