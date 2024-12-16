@@ -1,0 +1,117 @@
+digraph ProgramFlow {
+    // Global settings
+    rankdir=TB;
+    splines=ortho;
+    nodesep=0.8;
+    ranksep=1.0;
+    
+    // Default styles
+    node [
+        shape=rect,
+        style="rounded,filled",
+        fontname="Arial",
+        margin="0.3,0.2"
+    ]
+    edge [
+        fontname="Arial",
+        fontsize=10,
+        color="#666666",
+        fontcolor="#444444"
+    ]
+
+    // User interaction layer
+    subgraph cluster_user {
+        label="User Interface Layer";
+        style=filled;
+        color="#e5f5e0";
+        fontcolor="#2b8a3e";
+        
+        user [
+            label="User",
+            shape=actor,
+            fillcolor="#c3e6cb"
+        ];
+        gui [
+            label="GUI Interface\n(RayLib Window)",
+            fillcolor="#dee2e6"
+        ];
+    }
+
+    // Application core
+    subgraph cluster_core {
+        label="Core Application";
+        style=filled;
+        color="#e7f5ff";
+        fontcolor="#1971c2";
+        
+        main [
+            label="Main Application\n(Algoritmeanalyse-og-optimering.cpp)\n- Program initialization\n- Benchmark control\n- Visualization control",
+            fillcolor="#a5d8ff"
+        ];
+        
+        instrumentor [
+            label="Instrumentor\n- Performance tracking\n- JSON output\n- Timing measurements",
+            fillcolor="#74c0fc"
+        ];
+    }
+
+    // Algorithm implementations
+    subgraph cluster_algorithms {
+        label="Algorithm Implementations";
+        style=filled;
+        color="#fff4e6";
+        fontcolor="#e67700";
+        
+        sorting [
+            label="Sorting Algorithms\n(sorting.cpp)\n- Merge Sort O(n log n)\n- Quick Sort O(n log n)\n- Multiple pivot strategies",
+            fillcolor="#ffe8cc"
+        ];
+        
+        searching [
+            label="Searching Algorithms\n(searching.cpp)\n- Binary Search O(log n)\n- Array traversal",
+            fillcolor="#ffd8a8"
+        ];
+    }
+
+    // Visualization components
+    subgraph cluster_visualization {
+        label="Visualization System";
+        style=filled;
+        color="#f3f0ff";
+        fontcolor="#6741d9";
+        
+        visualizer [
+            label="Visualizer\n(Visualizer.cpp)\n- Data plotting\n- Graph rendering\n- Performance visualization",
+            fillcolor="#e5dbff"
+        ];
+        
+        json_parser [
+            label="JSON Parser\n- Trace event parsing\n- Performance data loading",
+            fillcolor="#d0bfff"
+        ];
+    }
+
+    // Relationships
+    user -> gui [label="Interacts with"];
+    gui -> main [label="Sends commands"];
+    
+    main -> instrumentor [label="Measures performance"];
+    main -> sorting [label="Executes"];
+    main -> searching [label="Executes"];
+    main -> visualizer [label="Displays results"];
+    
+    instrumentor -> json_parser [label="Outputs data"];
+    json_parser -> visualizer [label="Provides data"];
+    
+    {rank=same; sorting searching}
+    {rank=same; visualizer json_parser}
+    
+    // Performance flow
+    edge [color="#ff6b6b", style=dashed]
+    sorting -> instrumentor [label="Performance metrics"];
+    searching -> instrumentor [label="Performance metrics"];
+    
+    // Data flow
+    edge [color="#4dabf7", style=dotted]
+    visualizer -> gui [label="Renders graphics"];
+}
