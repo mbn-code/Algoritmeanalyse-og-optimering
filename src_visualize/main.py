@@ -2,9 +2,11 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import matplotlib.patches as mpatches
 import numpy as np
-from matplotlib.widgets import Slider, Button
+from matplotlib.widgets import Slider, Button, RadioButtons, TextBox
 from matplotlib.gridspec import GridSpec
-import matplotlib.gridspec as gridspec
+from numba import jit
+import sys
+sys.setrecursionlimit(1500)
 
 class PseudoCodeDisplay:
     def __init__(self, ax, pseudocode):
@@ -30,21 +32,38 @@ class PseudoCodeDisplay:
         if 0 <= line_number < len(self.text_objects):
             self.text_objects[line_number].set_backgroundcolor('yellow')
 
+    def update_code(self, pseudocode):
+        # Clear existing text objects
+        for txt in self.text_objects:
+            txt.remove()
+        self.code_lines = pseudocode.strip().split('\n')
+        self.text_objects = []
+        # Re-display pseudocode lines
+        for i, line in enumerate(self.code_lines):
+            txt = self.ax.text(
+                0.01, 0.95 - i * 0.05, line, fontsize=10,
+                transform=self.ax.transAxes, ha='left',
+                backgroundcolor='white'
+            )
+            self.text_objects.append(txt)
+        self.ax.figure.canvas.draw_idle()
+
 class SortVisualizer:
-    def __init__(self, array, algorithm="merge", interval=0.5):
+    def __init__(self, array):
         self.array = array.copy()
         self.operations = 0
-        self.algorithm = algorithm
-        self.interval = interval  # Interval in seconds
+        self.algorithm = "merge"
+        self.interval = 0.05  # Set default interval to 0.05 seconds for faster animation
         self.paused = False
         self.frames = []
+        self.precomputed_frames = {}
 
-        # Adjust layout to accommodate pseudocode display
+        # Adjust layout to accommodate pseudocode display and GUI elements
         self.fig = plt.figure(figsize=(12, 6))
         gs = GridSpec(1, 2, width_ratios=[3, 1])
         self.ax = self.fig.add_subplot(gs[0])
         self.pseudo_ax = self.fig.add_subplot(gs[1])
-        plt.subplots_adjust(bottom=0.25, right=0.75)
+        plt.subplots_adjust(bottom=0.3, right=0.75)
 
         self.bar_rects = self.ax.bar(range(len(self.array)), self.array, align="edge", color='lightblue')
         self.ax.set_xlim(0, len(self.array))
@@ -62,24 +81,49 @@ class SortVisualizer:
         ]
         self.ax.legend(handles=legend_patches, loc='upper right')
 
-        # Compute all frames beforehand
-        self.compute_frames()
+        # Define simplified pseudocode for the selected algorithm
+        self.define_pseudocode()
 
-        # Slider axis
+        # Initialize pseudocode display
+        self.pseudocode_display = PseudoCodeDisplay(self.pseudo_ax, self.pseudocode)
+
+        # Precompute all frames for both algorithms
+        self.precompute_frames()
+
+        # Slider for frame navigation
         ax_slider = plt.axes([0.13, 0.1, 0.65, 0.03])
-        self.slider = Slider(ax_slider, 'Frame', 0, len(self.frames)-1, valinit=0, valfmt='%0.0f')
+        self.slider = Slider(ax_slider, 'Frame', 0, len(self.frames) - 1, valinit=0, valfmt='%0.0f')
 
         # Pause/Play button
         ax_button = plt.axes([0.83, 0.1, 0.1, 0.04])
         self.button = Button(ax_button, 'Pause')
 
+        # Text box for speed input in seconds
+        ax_speed_text = plt.axes([0.13, 0.05, 0.45, 0.03])
+        self.speed_text_box = TextBox(ax_speed_text, 'Speed (s):', initial=str(self.interval))
+
+        # 'Run' button to apply new speed
+        ax_run_button = plt.axes([0.6, 0.05, 0.1, 0.04])
+        self.run_button = Button(ax_run_button, 'Run')
+
+        # 'Restart' button to restart the animation
+        ax_restart_button = plt.axes([0.72, 0.05, 0.1, 0.04])
+        self.restart_button = Button(ax_restart_button, 'Restart')
+
+        # Radio buttons for algorithm selection
+        ax_algo = plt.axes([0.025, 0.4, 0.1, 0.15])
+        self.algo_radio = RadioButtons(ax_algo, ('merge', 'quick'))
+
         # Connect events
         self.slider.on_changed(self.slider_update)
         self.button.on_clicked(self.toggle_pause)
+        self.run_button.on_clicked(self.submit_speed)
+        self.restart_button.on_clicked(self.restart_animation)
+        self.algo_radio.on_clicked(self.update_algorithm)
 
-        # Define simplified pseudocode for the selected algorithm
+    def define_pseudocode(self):
         if self.algorithm == "merge":
-            pseudocode = '''
+            self.pseudocode = '''
 def merge_sort(arr, left, right):
     if left >= right:
         return
@@ -108,7 +152,7 @@ def merge(arr, left, mid, right):
         arr[left + k] = val
 '''
         elif self.algorithm == "quick":
-            pseudocode = '''
+            self.pseudocode = '''
 def quick_sort(arr, low, high):
     if low < high:
         pi = partition(arr, low, high)
@@ -128,30 +172,36 @@ def partition(arr, low, high):
     return i
 '''
 
-        # Initialize pseudocode display
-        self.pseudocode_display = PseudoCodeDisplay(self.pseudo_ax, pseudocode)
+    def precompute_frames(self):
+        self.precomputed_frames['merge'] = []
+        self.precomputed_frames['quick'] = []
 
-    def compute_frames(self):
-        if self.algorithm == "merge":
-            generator = self.merge_sort(self.array.copy(), 0, len(self.array) - 1)
-        elif self.algorithm == "quick":
-            generator = self.quick_sort(self.array.copy(), 0, len(self.array) - 1)
+        # Precompute frames for merge sort
+        generator = self.merge_sort_generator(self.array.copy(), 0, len(self.array) - 1)
         for frame in generator:
-            self.frames.append(frame)
+            self.precomputed_frames['merge'].append(frame)
 
-    def merge_sort(self, arr, left, right):
+        # Precompute frames for quick sort
+        generator = self.quick_sort_generator(self.array.copy(), 0, len(self.array) - 1)
+        for frame in generator:
+            self.precomputed_frames['quick'].append(frame)
+
+        # Set initial frames to merge sort
+        self.frames = self.precomputed_frames['merge']
+
+    def merge_sort_generator(self, arr, left, right):
         yield arr.copy(), {}, 1  # Line 1: def merge_sort...
         if left >= right:
             yield arr.copy(), {}, 2  # Line 2: if left >= right...
             return
         mid = (left + right) // 2
         yield arr.copy(), {}, 3  # Line 3: mid = ...
-        yield from self.merge_sort(arr, left, mid)
-        yield from self.merge_sort(arr, mid + 1, right)
+        yield from self.merge_sort_generator(arr, left, mid)
+        yield from self.merge_sort_generator(arr, mid + 1, right)
         yield arr.copy(), {}, 6  # Line 6: merge(arr, left, mid, right)
-        yield from self.merge(arr, left, mid, right)
+        yield from self.merge_generator(arr, left, mid, right)
 
-    def merge(self, arr, left, mid, right):
+    def merge_generator(self, arr, left, mid, right):
         yield arr.copy(), {}, 7  # Line 7: def merge...
         merged = []
         i, j = left, mid + 1
@@ -179,17 +229,17 @@ def partition(arr, low, high):
             arr[left + k] = val
             yield arr.copy(), {'merged': left + k}, 18  # Line 18: for k, val in enumerate(merged)
 
-    def quick_sort(self, arr, low, high):
+    def quick_sort_generator(self, arr, low, high):
         yield arr.copy(), {}, 1  # Line 1: def quick_sort...
         if low < high:
             yield arr.copy(), {}, 2  # Line 2: if low < high...
-            pi = yield from self.partition(arr, low, high)
-            yield from self.quick_sort(arr, low, pi - 1)
-            yield from self.quick_sort(arr, pi + 1, high)
+            pi = yield from self.partition_generator(arr, low, high)
+            yield from self.quick_sort_generator(arr, low, pi - 1)
+            yield from self.quick_sort_generator(arr, pi + 1, high)
         else:
             yield arr.copy(), {}, 5  # Line 5: else (do nothing)
 
-    def partition(self, arr, low, high):
+    def partition_generator(self, arr, low, high):
         yield arr.copy(), {}, 3  # Line 3: def partition...
         pivot = arr[high]
         i = low
@@ -203,6 +253,53 @@ def partition(arr, low, high):
                 i += 1
         arr[i], arr[high] = arr[high], arr[i]
         yield arr.copy(), {'swap': [i, high], 'pivot': high}, 9  # Line 9: arr[i], arr[high] = arr[high], arr[i]
+        return i
+
+    @jit(nopython=True)
+    def merge_sort(self, arr, left, right):
+        if left >= right:
+            return
+        mid = (left + right) // 2
+        self.merge_sort(arr, left, mid)
+        self.merge_sort(arr, mid + 1, right)
+        self.merge(arr, left, mid, right)
+
+    @jit(nopython=True)
+    def merge(self, arr, left, mid, right):
+        merged = []
+        i, j = left, mid + 1
+        while i <= mid and j <= right:
+            if arr[i] <= arr[j]:
+                merged.append(arr[i])
+                i += 1
+            else:
+                merged.append(arr[j])
+                j += 1
+        while i <= mid:
+            merged.append(arr[i])
+            i += 1
+        while j <= right:
+            merged.append(arr[j])
+            j += 1
+        for k, val in enumerate(merged):
+            arr[left + k] = val
+
+    @jit(nopython=True)
+    def quick_sort(self, arr, low, high):
+        if low < high:
+            pi = self.partition(arr, low, high)
+            self.quick_sort(arr, low, pi - 1)
+            self.quick_sort(arr, pi + 1, high)
+
+    @jit(nopython=True)
+    def partition(self, arr, low, high):
+        pivot = arr[high]
+        i = low
+        for j in range(low, high):
+            if arr[j] < pivot:
+                arr[i], arr[j] = arr[j], arr[i]
+                i += 1
+        arr[i], arr[high] = arr[high], arr[i]
         return i
 
     def animate(self):
@@ -246,6 +343,7 @@ def partition(arr, low, high):
 
         self.text.set_text(f"Operations: {self.operations}")
         self.slider.set_val(frame_number)
+        self.fig.canvas.draw_idle()
 
     def slider_update(self, val):
         frame_number = int(self.slider.val)
@@ -261,11 +359,51 @@ def partition(arr, low, high):
             self.button.label.set_text('Play')
         self.paused = not self.paused
 
+    def submit_speed(self, event):
+        # Get the speed input from the text box
+        speed_str = self.speed_text_box.text
+        try:
+            new_interval = float(speed_str)
+            if new_interval > 0:
+                self.interval = new_interval
+                self.update_speed()
+            else:
+                print("Please enter a positive number for speed.")
+        except ValueError:
+            print("Invalid input for speed. Please enter a number.")
+
+    def update_speed(self):
+        # Update the animation interval
+        self.ani.event_source.interval = self.interval * 1000  # Update animation interval
+        # Restart the animation
+        self.restart_animation(None)
+
+    def restart_animation(self, event):
+        # Restart the animation
+        self.ani.event_source.stop()
+        self.ani.new_frame_seq()
+        self.slider.set_val(0)
+        if not self.paused:
+            self.ani.event_source.start()
+
+    def update_algorithm(self, label):
+        self.algorithm = label
+        # Update pseudocode
+        self.define_pseudocode()
+        self.pseudocode_display.update_code(self.pseudocode)
+
+        # Use precomputed frames for the selected algorithm
+        self.frames = self.precomputed_frames[self.algorithm]
+
+        # Update slider
+        self.slider.valmax = len(self.frames) - 1
+        self.slider.ax.set_xlim(self.slider.valmin, self.slider.valmax)
+        self.slider.set_val(0)
+
+        # Restart animation
+        self.restart_animation(None)
+
 if __name__ == "__main__":
-    np.random.seed(0)
-    arr_size = 30
-    arr = np.random.randint(1, 100, arr_size)
-    algorithm = input("Choose algorithm (merge/quick): ").strip().lower()
-    speed = float(input("Set animation speed (seconds per frame): "))
-    viz = SortVisualizer(arr, algorithm=algorithm, interval=speed)
-    viz.animate()
+    array = np.random.randint(1, 100, size=50)
+    visualizer = SortVisualizer(array)
+    visualizer.animate()
