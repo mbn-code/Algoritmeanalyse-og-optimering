@@ -87,6 +87,25 @@ def merge_sort(arr, left, right):
     merge_sort(arr, left, mid)
     merge_sort(arr, mid + 1, right)
     merge(arr, left, mid, right)
+
+def merge(arr, left, mid, right):
+    merged = []
+    i, j = left, mid + 1
+    while i <= mid and j <= right:
+        if arr[i] <= arr[j]:
+            merged.append(arr[i])
+            i += 1
+        else:
+            merged.append(arr[j])
+            j += 1
+    while i <= mid:
+        merged.append(arr[i])
+        i += 1
+    while j <= right:
+        merged.append(arr[j])
+        j += 1
+    for k, val in enumerate(merged):
+        arr[left + k] = val
 '''
         elif self.algorithm == "quick":
             pseudocode = '''
@@ -95,6 +114,18 @@ def quick_sort(arr, low, high):
         pi = partition(arr, low, high)
         quick_sort(arr, low, pi - 1)
         quick_sort(arr, pi + 1, high)
+    else:
+        return
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low
+    for j in range(low, high):
+        if arr[j] < pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[high] = arr[high], arr[i]
+    return i
 '''
 
         # Initialize pseudocode display
@@ -121,50 +152,57 @@ def quick_sort(arr, low, high):
         yield from self.merge(arr, left, mid, right)
 
     def merge(self, arr, left, mid, right):
+        yield arr.copy(), {}, 7  # Line 7: def merge...
         merged = []
         i, j = left, mid + 1
+        yield arr.copy(), {}, 8  # Line 8: i, j initialization
         while i <= mid and j <= right:
             self.operations += 1
-            yield arr.copy(), {'left': i, 'right': j}, 7  # Line 7: merging arrays
+            yield arr.copy(), {'left': i, 'right': j}, 9  # Line 9: while i <= mid and j <= right
             if arr[i] <= arr[j]:
                 merged.append(arr[i])
                 i += 1
+                yield arr.copy(), {'left': i}, 10  # Line 10: if arr[i] <= arr[j]
             else:
                 merged.append(arr[j])
                 j += 1
+                yield arr.copy(), {'right': j}, 12  # Line 12: else
         while i <= mid:
             merged.append(arr[i])
             i += 1
-            yield arr.copy(), {'left': i}
+            yield arr.copy(), {'left': i}, 14  # Line 14: while i <= mid
         while j <= right:
             merged.append(arr[j])
             j += 1
-            yield arr.copy(), {'right': j}
+            yield arr.copy(), {'right': j}, 16  # Line 16: while j <= right
         for k, val in enumerate(merged):
             arr[left + k] = val
-            yield arr.copy(), {'merged': left + k}
+            yield arr.copy(), {'merged': left + k}, 18  # Line 18: for k, val in enumerate(merged)
 
     def quick_sort(self, arr, low, high):
         yield arr.copy(), {}, 1  # Line 1: def quick_sort...
         if low < high:
             yield arr.copy(), {}, 2  # Line 2: if low < high...
-            pivot_index = yield from self.partition(arr, low, high)
-            yield from self.quick_sort(arr, low, pivot_index - 1)
-            yield from self.quick_sort(arr, pivot_index + 1, high)
+            pi = yield from self.partition(arr, low, high)
+            yield from self.quick_sort(arr, low, pi - 1)
+            yield from self.quick_sort(arr, pi + 1, high)
+        else:
+            yield arr.copy(), {}, 5  # Line 5: else (do nothing)
 
     def partition(self, arr, low, high):
+        yield arr.copy(), {}, 3  # Line 3: def partition...
         pivot = arr[high]
         i = low
-        yield arr.copy(), {'pivot': high}
+        yield arr.copy(), {'pivot': high}, 4  # Line 4: pivot = arr[high]
         for j in range(low, high):
             self.operations += 1
-            yield arr.copy(), {'i': i, 'j': j, 'pivot': high}
+            yield arr.copy(), {'i': i, 'j': j, 'pivot': high}, 5  # Line 5: for j in range(low, high)
             if arr[j] < pivot:
                 arr[i], arr[j] = arr[j], arr[i]
-                yield arr.copy(), {'swap': [i, j], 'pivot': high}
+                yield arr.copy(), {'swap': [i, j], 'pivot': high}, 6  # Line 6: if arr[j] < pivot
                 i += 1
         arr[i], arr[high] = arr[high], arr[i]
-        yield arr.copy(), {'swap': [i, high], 'pivot': high}
+        yield arr.copy(), {'swap': [i, high], 'pivot': high}, 9  # Line 9: arr[i], arr[high] = arr[high], arr[i]
         return i
 
     def animate(self):
