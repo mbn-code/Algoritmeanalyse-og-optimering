@@ -5,9 +5,10 @@
 #include "sorting.h"
 #include "searching.h"
 
-#include <vector>
 #include <algorithm>
 #include <numeric>
+#include <vector>
+#include <string>
 #include <random>
 
 #include "Instrumentor.h"

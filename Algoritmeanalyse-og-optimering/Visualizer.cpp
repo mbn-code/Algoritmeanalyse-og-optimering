@@ -42,7 +42,7 @@ std::vector<TraceEvent> parseJSON(const std::string& filePath) {
         std::cout << "Category: " << event.category << ", Name: " << event.name
             << ", Duration: " << event.duration << ", Phase: " << event.phase
             << ", PID: " << event.processId << ", TID: " << event.threadId
-            << ", Timestamp: " << event.timestamp << std::endl;
+			<< ", Timestamp: " << event.timestamp << std::endl; // Timestamp is the specific time the event occurred
     }
 
     return events;

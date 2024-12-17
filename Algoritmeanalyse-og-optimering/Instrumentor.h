@@ -23,10 +23,10 @@
 
 struct ProfileResult
 {
-    std::string Name;
-    long long Start, End;
-    uint32_t ThreadID;
-	std::string Category;
+	std::string Name;  // Name of the profiled scope
+	long long Start, End; // Start and end times of the profiled scope
+	uint32_t ThreadID; // Thread ID 
+	std::string Category; // Category of the profiled scope
 };
 
 struct InstrumentationSession

@@ -7,18 +7,6 @@
       "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:Algoritmeanalyse-og-optimering.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\searching.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:searching.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\sorting.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:sorting.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Visualizer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:Visualizer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Instrumentor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:Instrumentor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -27,20 +15,35 @@
       "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\searching.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:searching.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\sorting.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:sorting.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\json.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:json.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Visualizer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:Visualizer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\json.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:json.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\PROGRAM FILES\\MICROSOFT VISUAL STUDIO\\2022\\COMMUNITY\\VC\\TOOLS\\MSVC\\14.41.34120\\INCLUDE\\FSTREAM||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Visualizer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:Visualizer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\searching.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:searching.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\sorting.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:sorting.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\searching.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:searching.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\sorting.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|solutionrelative:sorting.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AB9E19E6-AD03-493D-9184-4A138E85D416}|Algoritmeanalyse-og-optimering.vcxproj|C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\raylib.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
@@ -53,8 +56,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 193,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "fstream",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\fstream",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\fstream",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\fstream",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\fstream",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-17T13:54:39.508Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -63,26 +79,27 @@
               "RelativeDocumentMoniker": "Algoritmeanalyse-og-optimering.cpp",
               "ToolTip": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering.cpp",
               "RelativeToolTip": "Algoritmeanalyse-og-optimering.cpp",
-              "ViewState": "AgIAAIcAAAAAAAAAAADwv6YAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAAALoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-11T13:38:13.892Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "main.h",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\main.h",
               "RelativeDocumentMoniker": "main.h",
               "ToolTip": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\main.h",
               "RelativeToolTip": "main.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-11T13:45:09.718Z"
+              "WhenOpened": "2024-12-11T13:45:09.718Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "raylib.h",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\raylib.h",
               "RelativeDocumentMoniker": "..\\raylib.h",
@@ -94,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "searching.h",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\searching.h",
               "RelativeDocumentMoniker": "searching.h",
@@ -106,44 +123,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "Visualizer.h",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Visualizer.h",
               "RelativeDocumentMoniker": "Visualizer.h",
               "ToolTip": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Visualizer.h",
               "RelativeToolTip": "Visualizer.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-14T10:58:08.872Z"
+              "WhenOpened": "2024-12-14T10:58:08.872Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Instrumentor.h",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Instrumentor.h",
               "RelativeDocumentMoniker": "Instrumentor.h",
               "ToolTip": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Instrumentor.h",
               "RelativeToolTip": "Instrumentor.h",
-              "ViewState": "AgIAAIsAAAAAAAAAAADwv78AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-11T13:58:44.292Z"
+              "WhenOpened": "2024-12-11T13:58:44.292Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Visualizer.cpp",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Visualizer.cpp",
               "RelativeDocumentMoniker": "Visualizer.cpp",
               "ToolTip": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Visualizer.cpp",
               "RelativeToolTip": "Visualizer.cpp",
-              "ViewState": "AgIAAEAAAAAAAAAAAADwv3QAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAADgv08AAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-14T14:55:55.545Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "searching.cpp",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\searching.cpp",
               "RelativeDocumentMoniker": "searching.cpp",
@@ -151,12 +170,11 @@
               "RelativeToolTip": "searching.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-13T14:12:56.553Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-13T14:12:56.553Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "sorting.cpp",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\sorting.cpp",
               "RelativeDocumentMoniker": "sorting.cpp",
@@ -164,12 +182,11 @@
               "RelativeToolTip": "sorting.cpp",
               "ViewState": "AgIAAEsAAAAAAAAAAADwv38AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-11T21:19:53.887Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-11T21:19:53.887Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "sorting.h",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\sorting.h",
               "RelativeDocumentMoniker": "sorting.h",
@@ -181,15 +198,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "json.hpp",
               "DocumentMoniker": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\json.hpp",
               "RelativeDocumentMoniker": "json.hpp",
               "ToolTip": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\json.hpp",
               "RelativeToolTip": "json.hpp",
-              "ViewState": "AgIAACctAAAAAAAAAAArwEMtAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-14T10:57:06.324Z"
+              "WhenOpened": "2024-12-14T10:57:06.324Z",
+              "EditorCaption": ""
             }
           ]
         }

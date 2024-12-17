@@ -52,8 +52,8 @@ class SortVisualizer:
     def __init__(self, array):
         self.array = array.copy()
         self.operations = 0
-        self.algorithm = "merge"
-        self.interval = 0.05  # Set default interval to 0.05 seconds for faster animation
+        self.algorithm = "quick"
+        self.interval = 0.00  # Set default interval to 0.05 seconds for faster animation
         self.paused = False
         self.frames = []
         self.precomputed_frames = {}
