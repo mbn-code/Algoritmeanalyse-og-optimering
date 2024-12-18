@@ -114,7 +114,7 @@ namespace sorting {
     void quick_sort(std::vector<int>& arr, int low, int high, PivotStrategy pivot_strategy) {
         if (low < high) {                           // O(1) - base case check
             // Step 1: Partition the array
-            int pi = partition(arr, low, high, pivot_strategy);   // O(n)
+			int pi = partition(arr, low, high, pivot_strategy);   // O(n) partitioning step this gets the pivot index
 
             // Step 2: Recursively sort the left part
             quick_sort(arr, low, pi - 1, pivot_strategy);          // O(log n)
