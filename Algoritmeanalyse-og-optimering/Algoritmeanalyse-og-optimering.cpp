@@ -97,36 +97,44 @@ void RunSortingBenchmarks(int num_runs, int initial_size, int size_increment) {
 }
 
 void RunSearchingBenchmarks(int num_runs, int initial_size, int size_increment) {
-	Instrumentor::Get().BeginSession("Searching Benchmarks", "results_searching.json");
+    Instrumentor::Get().BeginSession("Searching Benchmarks", "results_searching.json");
 
-	for (int size = initial_size; size <= initial_size + (num_runs - 1) * size_increment; size += size_increment) { // Loop through the different sizes to run benchmarks for each size
-		std::cout << "Running benchmarks for size: " << size << std::endl;
-		for (const std::string& caseType : { "Best", "Average", "Worst" }) {
-			std::vector<int> data(size);
+    for (int size = initial_size; size <= initial_size + (num_runs - 1) * size_increment; size += size_increment) {
+        std::cout << "Running benchmarks for size: " << size << std::endl;
+        for (const std::string& caseType : { "Best", "Average", "Worst" }) {
+            std::vector<int> data(size);
 
-			if (caseType == "Best") {
-				std::iota(data.begin(), data.end(), 0);
-			}
-			else if (caseType == "Worst") {
-				std::iota(data.rbegin(), data.rend(), 0);
-			}
-			else {
-				std::random_device rd;
-				std::mt19937 gen(rd());
-				std::uniform_int_distribution<> distrib(0, size * 2);
-				std::generate(data.begin(), data.end(), [&]() { return distrib(gen); });
-				std::sort(data.begin(), data.end());
-			}
+            if (caseType == "Best") {
+                std::iota(data.begin(), data.end(), 0); // Sorted ascending
+            }
+            else if (caseType == "Worst") {
+                std::iota(data.rbegin(), data.rend(), 0); // Sorted descending
+            }
+            else {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> distrib(0, size * 2);
+                std::generate(data.begin(), data.end(), [&]() { return distrib(gen); });
+                std::sort(data.begin(), data.end()); // Ensure data is sorted
+            }
 
-			{
-				std::string name = "Binary Search (" + caseType + ", Size: " + std::to_string(size) + ")";
-				InstrumentationTimer timer(name.c_str(), caseType.c_str());
-				searching::binary_search(data.data(), data.size(), data[size / 2]);
-			}
-		}
-	}
+            {
+                // Benchmark Binary Search
+                std::string name = "Binary Search (" + caseType + ", Size: " + std::to_string(size) + ")";
+                InstrumentationTimer timer(name.c_str(), caseType.c_str());
+                searching::binary_search(data.data(), data.size(), data[size / 2]);
+            }
 
-	Instrumentor::Get().EndSession();
+            {
+                // Benchmark Interpolation Search
+                std::string name = "Interpolation Search (" + caseType + ", Size: " + std::to_string(size) + ")";
+                InstrumentationTimer timer(name.c_str(), caseType.c_str());
+                searching::interpolation_once_binary_search(data.data(), data.size(), data[size / 2]);
+            }
+        }
+    }
+
+    Instrumentor::Get().EndSession();
 }
 
 void RunVisualizer(std::string filePath) {
@@ -163,7 +171,7 @@ bool VISUALIZE = true;
 
 int main() {
 
-	std::string filePath = "results_sorting.json";
+	std::string filePath = "results_searching.json";
     // 	std::string filePath = "results_sorting.json";
 
 
@@ -174,7 +182,7 @@ int main() {
 		}
         else {
             std::cout << "Running searching benchmarks..." << std::endl;
-            RunSearchingBenchmarks(100, 100, 100);
+            RunSearchingBenchmarks(100, 1000, 1000);
         }
 	    
     }

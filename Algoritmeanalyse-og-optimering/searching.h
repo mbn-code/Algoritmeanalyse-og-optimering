@@ -7,6 +7,7 @@
 
 namespace searching {
     void binary_search(int* arr, int size, int key);
+	int interpolation_once_binary_search(const int* arr, int size, int target);
 }
 
 

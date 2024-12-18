@@ -4,6 +4,19 @@
 
 namespace sorting {
 
+    // Insertion Sort implementation
+    void insertion_sort(std::vector<int>& arr, int left, int right) {
+        for (int i = left + 1; i <= right; ++i) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= left && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                --j;
+            }
+            arr[j + 1] = key;
+        }
+    }
+
     // Merge Sort implementation
     void merge(std::vector<int>& arr, int left, int mid, int right) {
         // Step 1: Calculate sizes of the two subarrays
@@ -16,19 +29,20 @@ namespace sorting {
         // Step 3: Copy data into the left subarray
         for (int i = 0; i < n1; ++i)   // O(n1) or O(n)
             L[i] = arr[left + i];      // O(1)
-        
+
         // Step 4: Copy data into the right subarray
         for (int j = 0; j < n2; ++j)   // O(n2) or O(n)
             R[j] = arr[mid + 1 + j];   // O(1)
 
         // Step 5: Merge the two subarrays
         int i = 0, j = 0, k = left;    // O(1)
-        
+
         while (i < n1 && j < n2) {      // O(n) - comparing and merging
             if (L[i] <= R[j]) {         // O(1)
                 arr[k] = L[i];          // O(1)
                 ++i;                    // O(1)
-            } else {
+            }
+            else {
                 arr[k] = R[j];          // O(1)
                 ++j;                    // O(1)
             }
@@ -50,8 +64,8 @@ namespace sorting {
         }
     }
 
-    void merge_sort(std::vector<int>& arr, int left, int right) {
-        if (left < right) {                  // O(1) - base case check
+    void merge_sort(std::vector<int>& arr, int left, int right) {    
+        if (left < right) {          // O(1) - base case check
             // Step 1: Calculate middle index
             int mid = left + (right - left) / 2;  // O(1)
 
@@ -70,6 +84,7 @@ namespace sorting {
     void merge_sort(std::vector<int>& arr) {
         merge_sort(arr, 0, arr.size() - 1);  // O(log n) recursive calls
     }
+
 
     // Quick Sort implementation
     int partition(std::vector<int>& arr, int low, int high, PivotStrategy pivot_strategy) {
