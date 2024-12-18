@@ -59,7 +59,6 @@ class SortVisualizer:
         self.paused = False
         self.frames = []
         self.precomputed_frames = {}
-        self.target_value = array[len(array) // 2]  # Default target value for binary search
 
         # Set up the figure and axes with improved layout
         self.fig = plt.figure(figsize=(14, 8))
@@ -155,21 +154,6 @@ class SortVisualizer:
     13    arr[i], arr[high] = arr[high], arr[i]
     14    return i
     '''
-        elif self.algorithm == "binary":
-            self.pseudocode = '''
-1 def binary_search(arr, target):
-2     left = 0
-3     right = len(arr) - 1
-4     while left <= right:
-5         mid = (left + right) // 2
-6         if arr[mid] == target:
-7             return mid
-8         elif arr[mid] < target:
-9             left = mid + 1
-10        else:
-11            right = mid - 1
-12    return -1
-'''
 
     # Updated generator functions with correct line numbers
     def merge_sort_generator(self, arr, left, right):
@@ -255,36 +239,10 @@ class SortVisualizer:
         yield arr.copy(), {}, 14  # Line 14: return i
         return i
 
-    def binary_search_generator(self, arr, target):
-        """Generator for binary search algorithm visualization."""
-        yield arr.copy(), {'target': target}, 1  # Line 1
-        left = 0
-        yield arr.copy(), {'left': left}, 2      # Line 2
-        right = len(arr) - 1
-        yield arr.copy(), {'right': right}, 3    # Line 3
-        while left <= right:
-            yield arr.copy(), {'left': left, 'right': right}, 4  # Line 4
-            mid = (left + right) // 2
-            yield arr.copy(), {'mid': mid}, 5    # Line 5
-            if arr[mid] == target:
-                yield arr.copy(), {'mid': mid}, 6  # Line 6
-                yield arr.copy(), {'found': mid}, 7  # Line 7
-                return
-            elif arr[mid] < target:
-                yield arr.copy(), {'mid': mid}, 8   # Line 8
-                left = mid + 1
-                yield arr.copy(), {'left': left}, 9  # Line 9
-            else:
-                yield arr.copy(), {'mid': mid}, 10  # Line 10
-                right = mid -1
-                yield arr.copy(), {'right': right}, 11  # Line 11
-        yield arr.copy(), {}, 12  # Line 12
-
     def precompute_frames(self):
         """Precomputes the frames for the sorting animations."""
         self.precomputed_frames['merge'] = list(self.merge_sort_generator(self.array.copy(), 0, len(self.array) - 1))
         self.precomputed_frames['quick'] = list(self.quick_sort_generator(self.array.copy(), 0, len(self.array) - 1))
-        self.precomputed_frames['binary'] = list(self.binary_search_generator(self.array.copy(), self.target_value))
         self.frames = self.precomputed_frames[self.algorithm]
 
     def animate(self):
@@ -310,37 +268,22 @@ class SortVisualizer:
             rect.set_height(val)
             rect.set_color('lightblue')
 
-        if self.algorithm == 'binary':
-            # Gray out elements outside the current search range
-            if 'left' in color_indices and 'right' in color_indices:
-                for i in range(len(arr)):
-                    if i < color_indices['left'] or i > color_indices['right']:
-                        self.bar_rects[i].set_color('grey')
-            # Highlight the middle element
-            if 'mid' in color_indices:
-                self.bar_rects[color_indices['mid']].set_color('yellow')
-            # Highlight the found element
-            if 'found' in color_indices:
-                self.bar_rects[color_indices['found']].set_color('green')
-                # Pause the animation upon finding the target
-                self.ani.event_source.stop()
-        else:
-            # Highlight specific bars based on sorting algorithm steps
-            if 'pivot' in color_indices:
-                pivot_index = color_indices['pivot']
-                self.bar_rects[pivot_index].set_color('yellow')
-            if 'i' in color_indices and 'j' in color_indices:
-                self.bar_rects[color_indices['i']].set_color('red')
-                self.bar_rects[color_indices['j']].set_color('green')
-            if 'swap' in color_indices:
-                for index in color_indices['swap']:
-                    self.bar_rects[index].set_color('orange')
-            if 'merged' in color_indices:
-                self.bar_rects[color_indices['merged']].set_color('purple')
-            if 'left' in color_indices:
-                self.bar_rects[color_indices['left']].set_color('red')
-            if 'right' in color_indices:
-                self.bar_rects[color_indices['right']].set_color('green')
+        # Highlight specific bars based on sorting algorithm steps
+        if 'pivot' in color_indices:
+            pivot_index = color_indices['pivot']
+            self.bar_rects[pivot_index].set_color('yellow')
+        if 'i' in color_indices and 'j' in color_indices:
+            self.bar_rects[color_indices['i']].set_color('red')
+            self.bar_rects[color_indices['j']].set_color('green')
+        if 'swap' in color_indices:
+            for index in color_indices['swap']:
+                self.bar_rects[index].set_color('orange')
+        if 'merged' in color_indices:
+            self.bar_rects[color_indices['merged']].set_color('purple')
+        if 'left' in color_indices:
+            self.bar_rects[color_indices['left']].set_color('red')
+        if 'right' in color_indices:
+            self.bar_rects[color_indices['right']].set_color('green')
 
         # Update pseudocode highlighting and operation count
         self.pseudocode_display.highlight_line(line_number)
@@ -384,42 +327,31 @@ class SortVisualizer:
 
     def restart_animation(self, event):
         """Restarts the animation from the beginning."""
-        # Regenerate the array based on the algorithm
-        if self.algorithm == 'binary':
-            # Use a larger array for binary search
-            self.array = np.random.randint(1, 1000, size=1000)
-            self.array.sort()
-            self.target_value = self.array[len(self.array) // 2]
-        else:
-            # Use the original unsorted array
-            self.array = self.original_array.copy()
-        
+        # Reset the array to its original unsorted state
+        self.array = self.original_array.copy()
+        self.operations = 0  # Reset the operation counter
+
         # Update the bar heights and reset colors
-        self.ax.clear()
-        self.bar_rects = self.ax.bar(range(len(self.array)), self.array, align="edge", color='lightblue')
-        self.ax.set_xlim(0, len(self.array))
-        self.ax.set_ylim(0, int(max(self.array) * 1.1))
         for rect, val in zip(self.bar_rects, self.array):
             rect.set_height(val)
             rect.set_color('lightblue')
-        
-        # Reset the operation counter and text display
-        self.operations = 0
+
+        # Reset the text display
         self.operation_text.set_text(f"Operations: {self.operations}")
-        
-        # Recompute frames
+
+        # Recompute frames for all algorithms with the new array
         self.precompute_frames()
         self.frames = self.precomputed_frames[self.algorithm]
-        
+
         # Reset the slider
         self.slider.valmax = len(self.frames) - 1
         self.slider.ax.set_xlim(self.slider.valmin, self.slider.valmax)
         self.slider.set_val(0)
         self.current_frame = 0
-        
-        # Reset pseudocode highlighting
+
+        # Reset the pseudocode highlighting
         self.pseudocode_display.highlight_line(0)
-        
+
         # Restart the animation
         self.ani.event_source.stop()
         self.ani.new_frame_seq()
@@ -431,27 +363,10 @@ class SortVisualizer:
         self.algorithm = label
         self.define_pseudocode()
         self.pseudocode_display.update_code(self.pseudocode)
-        
-        # Regenerate the array based on the algorithm
-        if self.algorithm == 'binary':
-            # Use a larger array for binary search
-            self.array = np.random.randint(1, 1000, size=1000)
-            self.array.sort()
-            self.target_value = self.array[len(self.array) // 2]
-        else:
-            # Use the original array for other algorithms
-            self.array = self.original_array.copy()
-        
-        # Update the bar plot
-        self.ax.clear()
-        self.bar_rects = self.ax.bar(range(len(self.array)), self.array, align="edge", color='lightblue')
-        self.ax.set_xlim(0, len(self.array))
-        self.ax.set_ylim(0, int(max(self.array) * 1.1))
-        self.ax.set_title(f"{self.algorithm.capitalize()} Visualization")
-        self.ax.set_xlabel("Index")
-        self.ax.set_ylabel("Value")
-        
-        # Recompute frames and restart animation
+        self.frames = self.precomputed_frames[self.algorithm]
+        self.slider.valmax = len(self.frames) - 1
+        self.slider.ax.set_xlim(self.slider.valmin, self.slider.valmax)
+        self.slider.set_val(0)
         self.restart_animation(None)
 
     def setup_gui(self):
@@ -485,13 +400,8 @@ class SortVisualizer:
         self.restart_button = Button(ax_restart_button, 'Restart')
 
         # Radio buttons for algorithm selection
-        ax_algo = plt.axes([0.025, 0.5, 0.1, 0.2])
-        self.algo_radio = RadioButtons(ax_algo, ('merge', 'quick', 'binary'))
-
-        # Text box for target value input (only for binary search)
-        ax_target_text = plt.axes([0.13, 0.01, 0.45, 0.03])
-        self.target_text_box = TextBox(ax_target_text, 'Target Value:', initial=str(self.target_value))
-        self.target_text_box.on_submit(self.update_target_value)
+        ax_algo = plt.axes([0.025, 0.5, 0.1, 0.15])
+        self.algo_radio = RadioButtons(ax_algo, ('merge', 'quick'))
 
         # Connect event handlers
         self.slider.on_changed(self.slider_update)
@@ -501,14 +411,6 @@ class SortVisualizer:
         self.algo_radio.on_clicked(self.update_algorithm)
         self.step_forward_button.on_clicked(self.step_forward)
         self.step_backward_button.on_clicked(self.step_backward)
-
-    def update_target_value(self, text):
-        """Updates the target value for binary search."""
-        try:
-            self.target_value = int(text)
-            self.restart_animation(None)
-        except ValueError:
-            print("Please enter a valid integer for the target value.")
 
     def step_forward(self, event):
         """Steps forward one frame in the animation."""
