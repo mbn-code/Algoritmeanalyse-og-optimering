@@ -59,6 +59,7 @@ class SortVisualizer:
         self.paused = False
         self.frames = []
         self.precomputed_frames = {}
+        self.target_value = array[len(array) // 2]  # Default target value for binary search
 
         # Set up the figure and axes with improved layout
         self.fig = plt.figure(figsize=(14, 8))
@@ -103,132 +104,188 @@ class SortVisualizer:
         self.setup_gui()
 
     def define_pseudocode(self):
-        """Defines the pseudocode for the selected sorting algorithm."""
+        """Defines the pseudocode for the selected sorting algorithm with line numbers."""
         if self.algorithm == "merge":
+            # Updated pseudocode with line numbers
             self.pseudocode = '''
-def merge_sort(arr, left, right):
-    if left >= right:
-        return
-    mid = (left + right) // 2
-    merge_sort(arr, left, mid)
-    merge_sort(arr, mid + 1, right)
-    merge(arr, left, mid, right)
+    1 def merge_sort(arr, left, right):
+    2     if left >= right:
+    3         return
+    4     mid = (left + right) // 2
+    5     merge_sort(arr, left, mid)
+    6     merge_sort(arr, mid + 1, right)
+    7     merge(arr, left, mid, right)
 
-def merge(arr, left, mid, right):
-    merged = []
-    i, j = left, mid + 1
-    while i <= mid and j <= right:
-        if arr[i] <= arr[j]:
-            merged.append(arr[i])
-            i += 1
-        else:
-            merged.append(arr[j])
-            j += 1
-    while i <= mid:
-        merged.append(arr[i])
-        i += 1
-    while j <= right:
-        merged.append(arr[j])
-        j += 1
-    for k, val in enumerate(merged):
-        arr[left + k] = val
-'''
+    8 def merge(arr, left, mid, right):
+    9     merged = []
+    10    i, j = left, mid + 1
+    11    while i <= mid and j <= right:
+    12        if arr[i] <= arr[j]:
+    13            merged.append(arr[i])
+    14            i += 1
+    15        else:
+    16            merged.append(arr[j])
+    17            j += 1
+    18    while i <= mid:
+    19        merged.append(arr[i])
+    20        i += 1
+    21    while j <= right:
+    22        merged.append(arr[j])
+    23        j += 1
+    24    for k, val in enumerate(merged):
+    25        arr[left + k] = val
+    '''
+
         elif self.algorithm == "quick":
+            # Updated pseudocode with line numbers
             self.pseudocode = '''
-def quick_sort(arr, low, high):
-    if low < high:
-        pi = partition(arr, low, high)
-        quick_sort(arr, low, pi - 1)
-        quick_sort(arr, pi + 1, high)
-    else:
-        return
+    1 def quick_sort(arr, low, high):
+    2     if low < high:
+    3         pi = partition(arr, low, high)
+    4         quick_sort(arr, low, pi - 1)
+    5         quick_sort(arr, pi + 1, high)
 
-def partition(arr, low, high):
-    pivot = arr[high]
-    i = low
-    for j in range(low, high):
-        if arr[j] < pivot:
-            arr[i], arr[j] = arr[j], arr[i]
-            i += 1
-    arr[i], arr[high] = arr[high], arr[i]
-    return i
+    6 def partition(arr, low, high):
+    7     pivot = arr[high]
+    8     i = low
+    9     for j in range(low, high):
+    10        if arr[j] < pivot:
+    11            arr[i], arr[j] = arr[j], arr[i]
+    12            i += 1
+    13    arr[i], arr[high] = arr[high], arr[i]
+    14    return i
+    '''
+        elif self.algorithm == "binary":
+            self.pseudocode = '''
+1 def binary_search(arr, target):
+2     left = 0
+3     right = len(arr) - 1
+4     while left <= right:
+5         mid = (left + right) // 2
+6         if arr[mid] == target:
+7             return mid
+8         elif arr[mid] < target:
+9             left = mid + 1
+10        else:
+11            right = mid - 1
+12    return -1
 '''
 
-    def precompute_frames(self):
-        """Precomputes the frames for the sorting animations."""
-        self.precomputed_frames['merge'] = list(self.merge_sort_generator(self.array.copy(), 0, len(self.array) - 1))
-        self.precomputed_frames['quick'] = list(self.quick_sort_generator(self.array.copy(), 0, len(self.array) - 1))
-        self.frames = self.precomputed_frames[self.algorithm]
-
+    # Updated generator functions with correct line numbers
     def merge_sort_generator(self, arr, left, right):
         """Generator for merge sort algorithm visualization."""
         yield arr.copy(), {}, 1  # Line 1: def merge_sort...
         if left >= right:
             yield arr.copy(), {}, 2  # Line 2: if left >= right...
+            yield arr.copy(), {}, 3  # Line 3: return
             return
         mid = (left + right) // 2
-        yield arr.copy(), {}, 3  # Line 3: mid = ...
+        yield arr.copy(), {}, 4  # Line 4: mid = ...
+        yield arr.copy(), {}, 5  # Line 5: merge_sort(arr, left, mid)
         yield from self.merge_sort_generator(arr, left, mid)
+        yield arr.copy(), {}, 6  # Line 6: merge_sort(arr, mid + 1, right)
         yield from self.merge_sort_generator(arr, mid + 1, right)
-        yield arr.copy(), {}, 6  # Line 6: merge(arr, left, mid, right)
+        yield arr.copy(), {}, 7  # Line 7: merge(arr, left, mid, right)
         yield from self.merge_generator(arr, left, mid, right)
 
     def merge_generator(self, arr, left, mid, right):
         """Generator for merging in merge sort."""
-        yield arr.copy(), {}, 7  # Line 7: def merge...
+        yield arr.copy(), {}, 8   # Line 8: def merge...
         merged = []
+        yield arr.copy(), {}, 9   # Line 9: merged = []
         i, j = left, mid + 1
-        yield arr.copy(), {}, 8  # Line 8: i, j initialization
+        yield arr.copy(), {}, 10  # Line 10: i, j = ...
         while i <= mid and j <= right:
-            self.operations += 1
-            yield arr.copy(), {'left': i, 'right': j}, 9  # Line 9: while i <= mid and j <= right
+            yield arr.copy(), {'left': i, 'right': j}, 11  # Line 11: while i <= mid and j <= right
             if arr[i] <= arr[j]:
+                yield arr.copy(), {'left': i}, 12  # Line 12: if arr[i] <= arr[j]
                 merged.append(arr[i])
                 i += 1
-                yield arr.copy(), {'left': i}, 10  # Line 10: if arr[i] <= arr[j]
+                yield arr.copy(), {'left': i}, 14  # Line 14: i += 1
             else:
+                yield arr.copy(), {'right': j}, 15  # Line 15: else
                 merged.append(arr[j])
                 j += 1
-                yield arr.copy(), {'right': j}, 12  # Line 12: else
+                yield arr.copy(), {'right': j}, 17  # Line 17: j += 1
         while i <= mid:
+            yield arr.copy(), {'left': i}, 18  # Line 18: while i <= mid
             merged.append(arr[i])
             i += 1
-            yield arr.copy(), {'left': i}, 14  # Line 14: while i <= mid
+            yield arr.copy(), {'left': i}, 20  # Line 20: i += 1
         while j <= right:
+            yield arr.copy(), {'right': j}, 21  # Line 21: while j <= right
             merged.append(arr[j])
             j += 1
-            yield arr.copy(), {'right': j}, 16  # Line 16: while j <= right
+            yield arr.copy(), {'right': j}, 23  # Line 23: j += 1
         for k, val in enumerate(merged):
             arr[left + k] = val
-            yield arr.copy(), {'merged': left + k}, 18  # Line 18: for k, val in enumerate(merged)
+            yield arr.copy(), {'merged': left + k}, 24  # Line 24: for k, val in enumerate(merged)
 
     def quick_sort_generator(self, arr, low, high):
         """Generator for quick sort algorithm visualization."""
         yield arr.copy(), {}, 1  # Line 1: def quick_sort...
         if low < high:
             yield arr.copy(), {}, 2  # Line 2: if low < high...
+            yield arr.copy(), {}, 3  # Line 3: pi = partition(arr, low, high)
             pi = yield from self.partition_generator(arr, low, high)
+            yield arr.copy(), {}, 4  # Line 4: quick_sort(arr, low, pi - 1)
             yield from self.quick_sort_generator(arr, low, pi - 1)
+            yield arr.copy(), {}, 5  # Line 5: quick_sort(arr, pi + 1, high)
             yield from self.quick_sort_generator(arr, pi + 1, high)
         else:
-            yield arr.copy(), {}, 5  # Line 5: else (do nothing)
+            return
 
     def partition_generator(self, arr, low, high):
         """Generator for partitioning in quick sort."""
-        yield arr.copy(), {}, 3  # Line 3: def partition...
+        yield arr.copy(), {}, 6   # Line 6: def partition...
         pivot = arr[high]
+        yield arr.copy(), {'pivot': high}, 7  # Line 7: pivot = arr[high]
         i = low
-        yield arr.copy(), {'pivot': high}, 4  # Line 4: pivot = arr[high]
+        yield arr.copy(), {}, 8   # Line 8: i = low
         for j in range(low, high):
-            self.operations += 1
-            yield arr.copy(), {'i': i, 'j': j, 'pivot': high}, 5  # Line 5: for j in range(low, high)
+            yield arr.copy(), {'i': i, 'j': j, 'pivot': high}, 9  # Line 9: for j in range(low, high)
             if arr[j] < pivot:
+                yield arr.copy(), {'i': i, 'j': j, 'pivot': high}, 10  # Line 10: if arr[j] < pivot
                 arr[i], arr[j] = arr[j], arr[i]
-                yield arr.copy(), {'swap': [i, j], 'pivot': high}, 6  # Line 6: if arr[j] < pivot
+                yield arr.copy(), {'swap': [i, j], 'pivot': high}, 11  # Line 11: arr[i], arr[j] = arr[j], arr[i]
                 i += 1
+                yield arr.copy(), {'i': i, 'pivot': high}, 12  # Line 12: i += 1
         arr[i], arr[high] = arr[high], arr[i]
-        yield arr.copy(), {'swap': [i, high], 'pivot': high}, 9  # Line 9: arr[i], arr[high] = arr[high], arr[i]
+        yield arr.copy(), {'swap': [i, high]}, 13  # Line 13: arr[i], arr[high] = arr[high], arr[i]
+        yield arr.copy(), {}, 14  # Line 14: return i
         return i
+
+    def binary_search_generator(self, arr, target):
+        """Generator for binary search algorithm visualization."""
+        yield arr.copy(), {'target': target}, 1  # Line 1
+        left = 0
+        yield arr.copy(), {'left': left}, 2      # Line 2
+        right = len(arr) - 1
+        yield arr.copy(), {'right': right}, 3    # Line 3
+        while left <= right:
+            yield arr.copy(), {'left': left, 'right': right}, 4  # Line 4
+            mid = (left + right) // 2
+            yield arr.copy(), {'mid': mid}, 5    # Line 5
+            if arr[mid] == target:
+                yield arr.copy(), {'mid': mid}, 6  # Line 6
+                yield arr.copy(), {'found': mid}, 7  # Line 7
+                return
+            elif arr[mid] < target:
+                yield arr.copy(), {'mid': mid}, 8   # Line 8
+                left = mid + 1
+                yield arr.copy(), {'left': left}, 9  # Line 9
+            else:
+                yield arr.copy(), {'mid': mid}, 10  # Line 10
+                right = mid -1
+                yield arr.copy(), {'right': right}, 11  # Line 11
+        yield arr.copy(), {}, 12  # Line 12
+
+    def precompute_frames(self):
+        """Precomputes the frames for the sorting animations."""
+        self.precomputed_frames['merge'] = list(self.merge_sort_generator(self.array.copy(), 0, len(self.array) - 1))
+        self.precomputed_frames['quick'] = list(self.quick_sort_generator(self.array.copy(), 0, len(self.array) - 1))
+        self.precomputed_frames['binary'] = list(self.binary_search_generator(self.array.copy(), self.target_value))
+        self.frames = self.precomputed_frames[self.algorithm]
 
     def animate(self):
         """Starts the animation of the sorting visualization."""
@@ -253,22 +310,37 @@ def partition(arr, low, high):
             rect.set_height(val)
             rect.set_color('lightblue')
 
-        # Highlight specific bars based on sorting algorithm steps
-        if 'pivot' in color_indices:
-            pivot_index = color_indices['pivot']
-            self.bar_rects[pivot_index].set_color('yellow')
-        if 'i' in color_indices and 'j' in color_indices:
-            self.bar_rects[color_indices['i']].set_color('red')
-            self.bar_rects[color_indices['j']].set_color('green')
-        if 'swap' in color_indices:
-            for index in color_indices['swap']:
-                self.bar_rects[index].set_color('orange')
-        if 'merged' in color_indices:
-            self.bar_rects[color_indices['merged']].set_color('purple')
-        if 'left' in color_indices:
-            self.bar_rects[color_indices['left']].set_color('red')
-        if 'right' in color_indices:
-            self.bar_rects[color_indices['right']].set_color('green')
+        if self.algorithm == 'binary':
+            # Gray out elements outside the current search range
+            if 'left' in color_indices and 'right' in color_indices:
+                for i in range(len(arr)):
+                    if i < color_indices['left'] or i > color_indices['right']:
+                        self.bar_rects[i].set_color('grey')
+            # Highlight the middle element
+            if 'mid' in color_indices:
+                self.bar_rects[color_indices['mid']].set_color('yellow')
+            # Highlight the found element
+            if 'found' in color_indices:
+                self.bar_rects[color_indices['found']].set_color('green')
+                # Pause the animation upon finding the target
+                self.ani.event_source.stop()
+        else:
+            # Highlight specific bars based on sorting algorithm steps
+            if 'pivot' in color_indices:
+                pivot_index = color_indices['pivot']
+                self.bar_rects[pivot_index].set_color('yellow')
+            if 'i' in color_indices and 'j' in color_indices:
+                self.bar_rects[color_indices['i']].set_color('red')
+                self.bar_rects[color_indices['j']].set_color('green')
+            if 'swap' in color_indices:
+                for index in color_indices['swap']:
+                    self.bar_rects[index].set_color('orange')
+            if 'merged' in color_indices:
+                self.bar_rects[color_indices['merged']].set_color('purple')
+            if 'left' in color_indices:
+                self.bar_rects[color_indices['left']].set_color('red')
+            if 'right' in color_indices:
+                self.bar_rects[color_indices['right']].set_color('green')
 
         # Update pseudocode highlighting and operation count
         self.pseudocode_display.highlight_line(line_number)
@@ -312,31 +384,42 @@ def partition(arr, low, high):
 
     def restart_animation(self, event):
         """Restarts the animation from the beginning."""
-        # Reset the array to its original unsorted state
-        self.array = self.original_array.copy()
-        self.operations = 0  # Reset the operation counter
-
+        # Regenerate the array based on the algorithm
+        if self.algorithm == 'binary':
+            # Use a larger array for binary search
+            self.array = np.random.randint(1, 1000, size=1000)
+            self.array.sort()
+            self.target_value = self.array[len(self.array) // 2]
+        else:
+            # Use the original unsorted array
+            self.array = self.original_array.copy()
+        
         # Update the bar heights and reset colors
+        self.ax.clear()
+        self.bar_rects = self.ax.bar(range(len(self.array)), self.array, align="edge", color='lightblue')
+        self.ax.set_xlim(0, len(self.array))
+        self.ax.set_ylim(0, int(max(self.array) * 1.1))
         for rect, val in zip(self.bar_rects, self.array):
             rect.set_height(val)
             rect.set_color('lightblue')
-
-        # Reset the text display
+        
+        # Reset the operation counter and text display
+        self.operations = 0
         self.operation_text.set_text(f"Operations: {self.operations}")
-
-        # Recompute frames for all algorithms with the new array
+        
+        # Recompute frames
         self.precompute_frames()
         self.frames = self.precomputed_frames[self.algorithm]
-
+        
         # Reset the slider
         self.slider.valmax = len(self.frames) - 1
         self.slider.ax.set_xlim(self.slider.valmin, self.slider.valmax)
         self.slider.set_val(0)
         self.current_frame = 0
-
-        # Reset the pseudocode highlighting
+        
+        # Reset pseudocode highlighting
         self.pseudocode_display.highlight_line(0)
-
+        
         # Restart the animation
         self.ani.event_source.stop()
         self.ani.new_frame_seq()
@@ -348,10 +431,27 @@ def partition(arr, low, high):
         self.algorithm = label
         self.define_pseudocode()
         self.pseudocode_display.update_code(self.pseudocode)
-        self.frames = self.precomputed_frames[self.algorithm]
-        self.slider.valmax = len(self.frames) - 1
-        self.slider.ax.set_xlim(self.slider.valmin, self.slider.valmax)
-        self.slider.set_val(0)
+        
+        # Regenerate the array based on the algorithm
+        if self.algorithm == 'binary':
+            # Use a larger array for binary search
+            self.array = np.random.randint(1, 1000, size=1000)
+            self.array.sort()
+            self.target_value = self.array[len(self.array) // 2]
+        else:
+            # Use the original array for other algorithms
+            self.array = self.original_array.copy()
+        
+        # Update the bar plot
+        self.ax.clear()
+        self.bar_rects = self.ax.bar(range(len(self.array)), self.array, align="edge", color='lightblue')
+        self.ax.set_xlim(0, len(self.array))
+        self.ax.set_ylim(0, int(max(self.array) * 1.1))
+        self.ax.set_title(f"{self.algorithm.capitalize()} Visualization")
+        self.ax.set_xlabel("Index")
+        self.ax.set_ylabel("Value")
+        
+        # Recompute frames and restart animation
         self.restart_animation(None)
 
     def setup_gui(self):
@@ -385,8 +485,13 @@ def partition(arr, low, high):
         self.restart_button = Button(ax_restart_button, 'Restart')
 
         # Radio buttons for algorithm selection
-        ax_algo = plt.axes([0.025, 0.5, 0.1, 0.15])
-        self.algo_radio = RadioButtons(ax_algo, ('merge', 'quick'))
+        ax_algo = plt.axes([0.025, 0.5, 0.1, 0.2])
+        self.algo_radio = RadioButtons(ax_algo, ('merge', 'quick', 'binary'))
+
+        # Text box for target value input (only for binary search)
+        ax_target_text = plt.axes([0.13, 0.01, 0.45, 0.03])
+        self.target_text_box = TextBox(ax_target_text, 'Target Value:', initial=str(self.target_value))
+        self.target_text_box.on_submit(self.update_target_value)
 
         # Connect event handlers
         self.slider.on_changed(self.slider_update)
@@ -396,6 +501,14 @@ def partition(arr, low, high):
         self.algo_radio.on_clicked(self.update_algorithm)
         self.step_forward_button.on_clicked(self.step_forward)
         self.step_backward_button.on_clicked(self.step_backward)
+
+    def update_target_value(self, text):
+        """Updates the target value for binary search."""
+        try:
+            self.target_value = int(text)
+            self.restart_animation(None)
+        except ValueError:
+            print("Please enter a valid integer for the target value.")
 
     def step_forward(self, event):
         """Steps forward one frame in the animation."""
