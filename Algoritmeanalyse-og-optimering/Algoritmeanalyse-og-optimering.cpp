@@ -182,7 +182,7 @@ int main() {
 		}
         else {
             std::cout << "Running searching benchmarks..." << std::endl;
-            RunSearchingBenchmarks(100, 1000, 1000);
+            RunSearchingBenchmarks(100, 100, 100);
         }
 	    
     }

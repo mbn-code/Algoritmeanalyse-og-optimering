@@ -22,27 +22,27 @@ namespace searching {
 
     // Implementation of Interpolation Search
     int interpolation_once_binary_search(const int* arr, int size, int target) {
-        int low = 0, high = size - 1;
+		int left = 0, right = size - 1;                                                         // O(1)
 
-        while (low <= high && target >= arr[low] && target <= arr[high]) {
-            if (low == high) {
-                if (arr[low] == target) return low;
+		while (left <= right && target >= arr[left] && target <= arr[right]) {                  // O(log n)
+			if (left == right) {                                                                // O(1)
+				if (arr[left] == target) return left;                                           // O(1) 
                 return -1;
             }
 
             // Probing position
-            int pos = low + ((target - arr[low]) * (high - low)) / (arr[high] - arr[low]);
+			int pos = left + ((target - arr[left]) * (right - left)) / (arr[right] - arr[left]); // O(1)
 
             // If found at pos
-            if (arr[pos] == target)
-                return pos;
+			if (arr[pos] == target)                                                             // O(1)
+				return pos;                                                                     // O(1)
 
-            // Target is in upper part
-            if (arr[pos] < target)
-                low = pos + 1;
-            // Target is in lower part
+            // Target is in upper part 
+			if (arr[pos] < target)                                                              // O(1)
+				left = pos + 1;                                                                 // O(1)
+            // Target is in lefter part
             else
-                high = pos - 1;
+				right = pos - 1;                                                                // O(1)
         }
 
         return -1; // Element not found
