@@ -1,0 +1,68 @@
+digraph G {
+    node [shape=record, fontname="Helvetica"];
+    edge [fontname="Helvetica"];
+
+    // Define subgraphs to group related nodes
+    subgraph cluster_instrumentation {
+        label="Instrumentation";
+        style=dashed;
+        Instrumentor [label="{ Instrumentor | +BeginSession(sessionName: string, outputFilePath: string) | +EndSession() }", style="filled", fillcolor="#D4E6F1"];
+        InstrumentationTimer [label="{ InstrumentationTimer | +Constructor() | +Destructor() }", style="filled", fillcolor="#D4E6F1"];
+    }
+
+    subgraph cluster_sorting {
+        label="Sorting";
+        style=dashed;
+        sorting [label="{ sorting (Namespace) | +merge_sort(data: vector<int>) | +quick_sort(data: vector<int>, left: int, right: int) }", style="filled", fillcolor="#F9E79F"];
+    }
+
+    subgraph cluster_searching {
+        label="Searching";
+        style=dashed;
+        searching [label="{ searching (Namespace) | +binary_search(data: int*, size: size_t, target: int) | +interpolation_once_binary_search(data: int*, size: size_t, target: int) }", style="filled", fillcolor="#F9E79F"];
+    }
+
+    subgraph cluster_benchmarks {
+        label="Benchmarks";
+        style=dotted;
+        RunSortingBenchmarks [label="{ RunSortingBenchmarks | +RunSortingBenchmarks() }", style="filled", fillcolor="#A9DFBF"];
+        RunSearchingBenchmarks [label="{ RunSearchingBenchmarks | +RunSearchingBenchmarks() }", style="filled", fillcolor="#A9DFBF"];
+    }
+
+    subgraph cluster_visualization {
+        label="Visualization";
+        style=dotted;
+        RunVisualizer [label="{ RunVisualizer | +RunVisualizer() }", style="filled", fillcolor="#A9DFBF"];
+        plotData [label="{ plotData | +plotData() }", style="filled", fillcolor="#A9DFBF"];
+    }
+
+    subgraph cluster_parsing {
+        label="Parsing";
+        style=dotted;
+        parseJSON [label="{ parseJSON | +parseJSON() }", style="filled", fillcolor="#A9DFBF"];
+        TraceEvent [label="{ TraceEvent | -eventData | -timestamp }", style="filled", fillcolor="#FAD7A0"];
+    }
+
+    // Main entry point
+    main [label="{ main | +main() }", style="filled", fillcolor="#D5DBDB"];
+
+    // Define edges with clearer relationships
+    Instrumentor -> InstrumentationTimer [label="creates", color="#1F618D"];
+    sorting -> RunSortingBenchmarks [label="used by", color="#F39C12"];
+    searching -> RunSearchingBenchmarks [label="used by", color="#F39C12"];
+    RunSortingBenchmarks -> plotData [label="sends data to", color="#F39C12"];
+    RunSearchingBenchmarks -> plotData [label="sends data to", color="#F39C12"];
+    RunVisualizer -> plotData [label="calls", color="#58D68D"];
+    RunVisualizer -> parseJSON [label="reads from", color="#58D68D"];
+    parseJSON -> TraceEvent [label="parses to", color="#1F618D"];
+    TraceEvent -> plotData [label="provides trace data", color="#58D68D"];
+
+    // Main process flow
+    main -> RunSortingBenchmarks [label="calls", color="#58D68D"];
+    main -> RunSearchingBenchmarks [label="calls", color="#58D68D"];
+    main -> RunVisualizer [label="calls", color="#58D68D"];
+
+    // Sorting and Searching calls
+    sorting -> searching [label="calls binary_search", color="#58D68D"];
+    sorting -> sorting [label="recursive calls", color="#F39C12"];
+}

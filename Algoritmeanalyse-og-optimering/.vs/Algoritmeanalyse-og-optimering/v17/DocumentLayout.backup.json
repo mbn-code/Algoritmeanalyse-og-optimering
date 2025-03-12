@@ -56,8 +56,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 193,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 11,
@@ -66,7 +74,6 @@
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\fstream",
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\fstream",
               "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\fstream",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-12-17T13:54:39.508Z"
             },
@@ -78,7 +85,7 @@
               "RelativeDocumentMoniker": "Algoritmeanalyse-og-optimering.cpp",
               "ToolTip": "C:\\Users\\manor\\Documents\\GitHub\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering\\Algoritmeanalyse-og-optimering.cpp",
               "RelativeToolTip": "Algoritmeanalyse-og-optimering.cpp",
-              "ViewState": "AgIAAJMAAAAAAAAAAAAlwLgAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAlwKsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-11T13:38:13.892Z",
               "EditorCaption": ""
@@ -117,8 +124,7 @@
               "RelativeToolTip": "searching.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-13T14:08:26.001Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-13T14:08:26.001Z"
             },
             {
               "$type": "Document",
@@ -130,8 +136,7 @@
               "RelativeToolTip": "Visualizer.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-14T10:58:08.872Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-14T10:58:08.872Z"
             },
             {
               "$type": "Document",
@@ -167,8 +172,7 @@
               "RelativeToolTip": "searching.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-13T14:12:56.553Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-13T14:12:56.553Z"
             },
             {
               "$type": "Document",
@@ -180,8 +184,7 @@
               "RelativeToolTip": "sorting.cpp",
               "ViewState": "AgIAAGYAAAAAAAAAAAAAAGAAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-11T21:19:53.887Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-11T21:19:53.887Z"
             },
             {
               "$type": "Document",
@@ -193,8 +196,7 @@
               "RelativeToolTip": "sorting.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-11T13:54:58.036Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-11T13:54:58.036Z"
             },
             {
               "$type": "Document",
